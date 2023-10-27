@@ -17,50 +17,56 @@
         }
         .fish {
             position: absolute;
-            font-size: 2rem;
-            animation: swim 10s linear infinite;
+            animation: swim 10s linear infinite alternate;
         }
-        .hook {
+        .hook, .line {
             position: absolute;
-            font-size: 2rem;
-            top: 0;
-            left: 50%;
         }
-        @keyframes swim {
-            0% {
-                left: 0;
-            }
-            100% {
-                left: 100%;
-            }
+        .line {
+            width: 3px;
+            background-color: blue;
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
 <body>
     <div id="game-container">
+        <div class="line"></div>
         <div class="hook">🪝</div>
     </div>
     <script>
         const gameContainer = document.getElementById('game-container');
         const hook = document.querySelector('.hook');
+        const line = document.querySelector('.line');
         const fishEmojis = ['🐟', '🐠', '🐡', '🦈', '🐬', '🦀', '🦑', '🐙', '🐋'];
         let fishArray = [];
 
         function createFish() {
             const fish = document.createElement('div');
             fish.classList.add('fish');
-            fish.textContent = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-            fish.style.top = `${Math.random() * 100}vh`;
+            const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+            fish.textContent = emoji;
+            fish.style.top = `${Math.random() * 90}vh`;
+            fish.style.left = `${Math.random() * 100}vw`;
+            fish.style.fontSize = `${1 + Math.random()}rem`;
             fish.style.animationDuration = `${Math.random() * 5 + 5}s`;
             gameContainer.appendChild(fish);
             fishArray.push(fish);
         }
 
         function dropHook() {
-            hook.style.transition = 'top 1s ease-in-out';
-            hook.style.top = '90vh';
+            const angle = Math.random() * 45 - 22.5; // Angle between -22.5 and 22.5 degrees
+            const distance = 90 * Math.cos(angle * (Math.PI / 180));
+            hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
+            line.style.transition = 'height 1s ease-in-out';
+            hook.style.top = `${distance}vh`;
+            hook.style.left = `calc(50vw + ${distance * Math.tan(angle * (Math.PI / 180))}vh)`;
+            line.style.height = `${distance}vh`;
             setTimeout(() => {
                 hook.style.top = '0';
+                hook.style.left = '0';
+                line.style.height = '0';
                 checkForCatch();
             }, 1000);
         }
@@ -86,7 +92,12 @@
         }
 
         gameContainer.addEventListener('click', dropHook);
+        gameContainer.addEventListener('touchstart', dropHook);
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space') {
+                dropHook();
+            }
+        });
     </script>
 </body>
 </html>
-
