@@ -22,12 +22,14 @@
             position: absolute;
             animation: swim 10s linear infinite alternate;
         }
-        .hook, .line {
+        .hook {
             position: absolute;
+            font-size: 4rem;
         }
         .line {
-            width: 3px;
-            background-color: blue;
+            position: absolute;
+            width: 4px;
+            background-color: black;
             top: 0;
             left: 0;
         }
@@ -54,14 +56,14 @@
         let score = 0;
         const scoreElement = document.getElementById('score');
 
-        function createFish() {
+        function createFish(index) {
             const fish = document.createElement('div');
             fish.classList.add('fish');
             const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
             fish.textContent = emoji;
             fish.style.top = `${Math.random() * 90}vh`;
             fish.style.left = `${Math.random() * 100}vw`;
-            fish.style.fontSize = `${1 + Math.random()}rem`;
+            fish.style.fontSize = `${(index + 1) * (1 + Math.random())}rem`;
             fish.style.animationDuration = `${Math.random() * 5 + 5}s`;
             gameContainer.appendChild(fish);
             fishArray.push(fish);
@@ -106,7 +108,7 @@
         }
 
         for (let i = 0; i < 20; i++) {
-            createFish();
+            createFish(i);
         }
 
         gameContainer.addEventListener('click', dropHook);
