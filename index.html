@@ -2,17 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Emoji Fish</title>
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
             background-color: #87CEEB;
+            height: 100%;
+            width: 100%;
         }
         #game-container {
             position: relative;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
         }
         .fish {
@@ -28,12 +31,19 @@
             top: 0;
             left: 0;
         }
+        #score {
+            position: absolute;
+            top: 1vh;
+            left: 1vw;
+            font-size: 3vh;
+        }
     </style>
 </head>
 <body>
     <div id="game-container">
         <div class="line"></div>
         <div class="hook">🪝</div>
+        <div id="score">Score: 0</div>
     </div>
     <script>
         const gameContainer = document.getElementById('game-container');
@@ -41,6 +51,8 @@
         const line = document.querySelector('.line');
         const fishEmojis = ['🐟', '🐠', '🐡', '🦈', '🐬', '🦀', '🦑', '🐙', '🐋'];
         let fishArray = [];
+        let score = 0;
+        const scoreElement = document.getElementById('score');
 
         function createFish() {
             const fish = document.createElement('div');
@@ -56,7 +68,7 @@
         }
 
         function dropHook() {
-            const angle = Math.random() * 45 - 22.5; // Angle between -22.5 and 22.5 degrees
+            const angle = Math.random() * 45 - 22.5;
             const distance = 90 * Math.cos(angle * (Math.PI / 180));
             hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
             line.style.transition = 'height 1s ease-in-out';
@@ -83,8 +95,14 @@
                 ) {
                     gameContainer.removeChild(fish);
                     fishArray.splice(index, 1);
+                    updateScore();
                 }
             });
+        }
+
+        function updateScore() {
+            score++;
+            scoreElement.textContent = `Score: ${score}`;
         }
 
         for (let i = 0; i < 20; i++) {
