@@ -62,15 +62,41 @@
             }
         }
 
-        @keyframes spiralSwim {
+      @keyframes spiralSwimLeft {
             0%, 100% {
-                transform: translateX(600px) translateY(0) rotate(0deg) scaleX(1);
+                transform: translateX(1100px) translateY(0) rotate(0deg) scaleX(1);
             }
             50% {
-                transform: translateX(-600px) translateY(30px) rotate(360deg) scaleX(-1);
+                transform: translateX(-1100px) translateY(30px) rotate(-360deg) scaleX(-1);
             }
         }
 
+        @keyframes spiralSwimRight {
+            0%, 100% {
+                transform: translateX(1100px) translateY(0) rotate(0deg) scaleX(1);
+            }
+            50% {
+                transform: translateX(-1100px) translateY(30px) rotate(360deg) scaleX(-1);
+            }
+        }
+
+        @keyframes whaleSwimLeft {
+            0%, 100% {
+                transform: translateX(1100px) translateY(0) rotate(0deg) scaleX(1);
+            }
+            50% {
+                transform: translateX(-1100px) translateY(30px) rotate(360deg) scaleX(-1);
+            }
+        }
+
+        @keyframes whaleSwimRight {
+            0%, 100% {
+                transform: translateX(1100px) translateY(0) rotate(0deg) scaleX(1);
+            }
+            50% {
+                transform: translateX(-1100px) translateY(30px) rotate(-360deg) scaleX(-1);
+            }
+        }
         @keyframes slowSwim {
             0%, 100% {
                 transform: translateX(400px) translateY(0) scaleX(1);
@@ -114,16 +140,29 @@
 
             if (['🐟', ' 🐡', '🐠'].includes(emoji)) {
                 fish.style.animationName = 'wobblySwim';
-            } else if (['🦈', '🐬', '🐋'].includes(emoji)) {
-                fish.style.animationName = 'spiralSwim';
+            } else if (['🦈', '🐬'].includes(emoji)) {
+                fish.style.animationName = 'spiralSwimLeft';
+                fish.addEventListener('animationiteration', function() {
+                    if (fish.style.animationName === 'spiralSwimLeft') {
+                        fish.style.animationName = 'spiralSwimRight';
+                    } else {
+                        fish.style.animationName = 'spiralSwimLeft';
+                    }
+                });
+            } else if (['🐋'].includes(emoji)) {
+                fish.style.animationName = 'whaleSwimLeft';
+                fish.addEventListener('animationiteration', function() {
+                    if (fish.style.animationName === 'whaleSwimLeft') {
+                        fish.style.animationName = 'whaleSwimRight';
+                    } else {
+                        fish.style.animationName = 'whaleSwimLeft';
+                    }
+                });
             } else {
                 fish.style.animationName = 'slowSwim';
             }
-            gameContainer.appendChild(fish);
-            fishArray.push(fish);
-        }
-
-              function dropHook(event) {
+            
+        function dropHook(event) {
             const x = event.clientX;
             const y = event.clientY;
             const angle = Math.atan2(y - hook.offsetTop, x - hook.offsetLeft);
