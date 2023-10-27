@@ -161,6 +161,8 @@
             } else {
                 fish.style.animationName = 'slowSwim';
             }
+        }   gameContainer.appendChild(fish);  // <-- This line was missing
+            fishArray.push(fish);
         }
             
         function dropHook(event) {
