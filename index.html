@@ -137,6 +137,29 @@
         hook.style.left = '0px';
         line.style.height = '0px';
 
+function getFishSize(emoji) {
+            switch (emoji) {
+                case '🐟':
+                case '🐠':
+                case '🐡':
+                    return '60px';
+                case '🐬':
+                case '🦈':
+                    return '120px';
+                case '🦐':
+                    return '40px';
+                case '🐋':
+                    return '200px';
+                case '🦀':
+                    return '50px';
+                case '🐙':
+                case '🦑':
+                    return '250px';
+                default:
+                    return '60px';
+            }
+        }
+        
 function createFish(index) {
             const fish = document.createElement('div');
             fish.classList.add('fish');
@@ -145,10 +168,10 @@ function createFish(index) {
             fish.style.top = `${Math.random() * 90}vh`;
             const startPosition = Math.random() > 0.5 ? 1700 : -700;
             fish.style.left = `${startPosition}px`;
-            fish.style.fontSize = `${(index + 1) * (1 + Math.random() * 0.3)}rem`;
+            fish.style.fontSize = getFishSize(emoji);
             fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
 
-    if (startPosition === 1700) {
+            if (startPosition === 1700) {
                 fish.style.animationName = 'swimLeft';
             } else {
                 fish.style.animationName = 'swimRight';
