@@ -20,7 +20,7 @@
         }
         .fish {
             position: absolute;
-            animation: swim 10s linear infinite alternate;
+            animation: swim 20s linear infinite alternate;
         }
         .hook {
             position: absolute;
@@ -38,6 +38,17 @@
             top: 1vh;
             left: 1vw;
             font-size: 3vh;
+        }
+        @keyframes swim {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                transform: translateX(-200px) translateY(30px);
+            }
+            100% {
+                transform: translateX(0) translateY(0);
+            }
         }
     </style>
 </head>
@@ -62,9 +73,9 @@
             const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
             fish.textContent = emoji;
             fish.style.top = `${Math.random() * 90}vh`;
-            fish.style.left = `${Math.random() * 100}vw`;
+            fish.style.left = `100vw`;
             fish.style.fontSize = `${(index + 1) * (1 + Math.random() * 0.3)}rem`;
-            fish.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
             gameContainer.appendChild(fish);
             fishArray.push(fish);
         }
