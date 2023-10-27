@@ -135,36 +135,25 @@
     const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
     fish.textContent = emoji;
     fish.style.top = `${Math.random() * 90}vh`;
-    fish.style.left = `${Math.random() * 100}vw`;
+    const startPosition = Math.random() > 0.5 ? -600 : 600;
+    fish.style.left = `${startPosition}px`;
     fish.style.fontSize = `${(index + 1) * (1 + Math.random() * 0.3)}rem`;
     fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
 
-    if (['🐟', '🐡', '🐠'].includes(emoji)) {
-        fish.style.animationName = 'wobblySwim';
-    } else if (['🦈', '🐬'].includes(emoji)) {
-        fish.style.animationName = 'spiralSwimLeft';
-        fish.addEventListener('animationiteration', function() {
-            if (fish.style.animationName === 'spiralSwimLeft') {
-                fish.style.animationName = 'spiralSwimRight';
-            } else {
-                fish.style.animationName = 'spiralSwimLeft';
-            }
-        });
-    } else if (['🐋'].includes(emoji)) {
-        fish.style.animationName = 'whaleSwimLeft';
-        fish.addEventListener('animationiteration', function() {
-            if (fish.style.animationName === 'whaleSwimLeft') {
-                fish.style.animationName = 'whaleSwimRight';
-            } else {
-                fish.style.animationName = 'whaleSwimLeft';
-            }
-        });
-    } else {
-        fish.style.animationName = 'slowSwim';
+    if (startPosition === 600) {
+        fish.style.transform = 'scaleX(-1)';
     }
-    gameContainer.appendChild(fish);  // Append the fish to the game container
-    fishArray.push(fish);  // Push the fish into the fishArray
+
+    if (['🐟', '🐡', '🐠'].includes(emoji)) {
+        fish.style.animationName = 'swim';
+    } else {
+        fish.style.animationName = 'swim';  // Default to 'swim' for now, you can add more conditions for other emojis
+    }
+
+    gameContainer.appendChild(fish);
+    fishArray.push(fish);
 }
+
             
         function dropHook(event) {
             const x = event.clientX;
