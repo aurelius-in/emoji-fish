@@ -98,6 +98,11 @@
         const scoreElement = document.getElementById('score');
         let caughtFish = null;
 
+        // Initialize hook and line positions
+        hook.style.top = '0px';
+        hook.style.left = '0px';
+        line.style.height = '0px';
+
         function createFish(index) {
             const fish = document.createElement('div');
             fish.classList.add('fish');
