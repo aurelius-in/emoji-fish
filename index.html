@@ -73,7 +73,7 @@
             const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
             fish.textContent = emoji;
             fish.style.top = `${Math.random() * 90}vh`;
-            fish.style.left = `100vw`;
+            fish.style.left = `${Math.random() * 100}vw`;
             fish.style.fontSize = `${(index + 1) * (1 + Math.random() * 0.3)}rem`;
             fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
             gameContainer.appendChild(fish);
