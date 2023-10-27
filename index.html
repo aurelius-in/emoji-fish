@@ -165,8 +165,30 @@
             fishArray.push(fish);
         }
             
-        function dropHook(event) { const x = event.clientX; const y = event.clientY; const angle = Math.atan2(y, x); const distance = Math.sqrt(x * x + y * y); hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out'; line.style.transition = 'height 1s ease-in-out'; hook.style.top = `${y}px`; hook.style.left = `${x}px`; line.style.height = `${distance}px`; line.style.transform = `rotate(${angle + Math.PI / 2}rad)`; setTimeout(() => { if (caughtFish) { caughtFish.style.top = '0'; caughtFish = null; } hook.style.top = '0'; hook.style.left = '0'; line.style.height = '0'; line.style.transform = 'rotate(0)'; checkForCatch(); }, 
-
+        function dropHook(event) {
+            const x = event.clientX;
+            const y = event.clientY;
+            const angle = Math.atan2(y, x);
+            const distance = Math.sqrt(x * x + y * y);
+            hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
+            line.style.transition = 'height 1s ease-in-out';
+            hook.style.top = `${y}px`;
+            hook.style.left = `${x}px`;
+            line.style.height = `${distance}px`;
+            line.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
+            setTimeout(() => {
+                if (caughtFish) {
+                    caughtFish.style.top = '0';
+                    caughtFish = null;
+                }
+                hook.style.top = '0';
+                hook.style.left = '0';
+                line.style.height = '0';
+                line.style.transform = 'rotate(0)';
+                checkForCatch();
+            }, 1000);
+        }
+        
         function checkForCatch() {
             fishArray.forEach((fish, index) => {
                 const fishRect = fish.getBoundingClientRect();
