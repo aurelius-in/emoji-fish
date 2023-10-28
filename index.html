@@ -176,27 +176,29 @@ function getFishSize(emoji) {
 }
         
 function createFish(startPosition) {
-    const fishWrapper = document.createElement('div');
-    const fish = document.createElement('div');
-    fishWrapper.appendChild(fish);
-    fish.classList.add('fish');
-    const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-    fish.textContent = emoji;
-    fish.style.top = `${Math.random() * 90}vh`;
-    fishWrapper.style.left = `${startPosition}px`;
-    fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
+            const fishWrapper = document.createElement('div');
+            const fish = document.createElement('div');
+            fishWrapper.appendChild(fish);
+            fish.classList.add('fish');
+            const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+            fish.textContent = emoji;
+            fish.style.top = `${Math.random() * 90}vh`;
+            fishWrapper.style.position = 'absolute';
+            fishWrapper.style.left = `${startPosition}px`;
+            fish.style.fontSize = getFishSize(emoji);
+            fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
 
-    if (startPosition === 1700) {
-        fish.style.animationName = 'swimLeft';
-        fishWrapper.classList.add('flip');
-    } else {
-        fish.style.animationName = 'swimRight';
-    }
+            if (startPosition === 1500) {
+                fish.style.animationName = 'swimLeft';
+                fishWrapper.classList.add('flip');
+            } else {
+                fish.style.animationName = 'swimRight';
+            }
 
-    gameContainer.appendChild(fishWrapper);
-    fishArray.push(fish);
-}
+            gameContainer.appendChild(fishWrapper);
+            fishArray.push(fish);
+        }
+
         function dropHook(event) {
             const x = event.clientX;
             const y = event.clientY;
