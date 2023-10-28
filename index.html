@@ -175,8 +175,9 @@ function getFishSize(emoji) {
             }
 }
         
-function createFish(startPosition) {
-    // Limit the number of fish to 10
+let spawnFromLeft = true;
+
+function createFish(startPosition, flip) {
     if (fishArray.length >= 10) {
         const oldestFish = fishArray.shift();
         oldestFish.remove();
@@ -193,9 +194,9 @@ function createFish(startPosition) {
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
 
-    if (startPosition === 1500) {
-        fish.style.animationName = 'swimLeft';
+    if (flip) {
         fishWrapper.classList.add('flip');
+        fish.style.animationName = 'swimLeft';
     } else {
         fish.style.animationName = 'swimRight';
     }
@@ -204,19 +205,18 @@ function createFish(startPosition) {
     fishArray.push(fishWrapper);
 }
 
-// Spawn fish from the left every 0.5 seconds
+// Alternate spawning from left and right every 0.55 seconds
 setInterval(() => {
     if (fishArray.length < 10) {
-        createFish(1500);
+        if (spawnFromLeft) {
+            createFish(1500, true);
+        } else {
+            createFish(-500, false);
+        }
+        spawnFromLeft = !spawnFromLeft;
     }
-}, 500);
+}, 550);
 
-// Spawn fish from the right every 0.6 seconds
-setInterval(() => {
-    if (fishArray.length < 10) {
-        createFish(-500);
-    }
-}, 600);
 
 
         function dropHook(event) {
