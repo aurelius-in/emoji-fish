@@ -48,8 +48,9 @@
     transform: scaleX(-1);
 }
 .flip {
-        transform: scaleX(-1);
-    }
+    transform: scaleX(-1);
+}
+
         
 @keyframes swimLeft {
             0% {
@@ -173,24 +174,26 @@ function getFishSize(emoji) {
 }
         
 function createFish(index) {
+    const fishWrapper = document.createElement('div');
     const fish = document.createElement('div');
+    fishWrapper.appendChild(fish);
     fish.classList.add('fish');
     const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
     fish.textContent = emoji;
     fish.style.top = `${Math.random() * 90}vh`;
     const startPosition = Math.random() > 0.5 ? 1700 : -700;
-    fish.style.left = `${startPosition}px`;
+    fishWrapper.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
 
     if (startPosition === 1700) {
         fish.style.animationName = 'swimLeft';
-        fish.classList.add('flip');  // Flip the fish
+        fishWrapper.classList.add('flip');  // Flip the fish
     } else {
         fish.style.animationName = 'swimRight';
     }
 
-    gameContainer.appendChild(fish);
+    gameContainer.appendChild(fishWrapper);
     fishArray.push(fish);
 }
 
