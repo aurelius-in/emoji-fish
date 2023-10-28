@@ -247,7 +247,15 @@ function createFish(index) {
             createFish(i);
         }
 
-        setInterval(createFish, 500);
+        setInterval(() => {
+    createFish(1500);
+}, 500);
+
+// Spawn fish from the right every 0.6 seconds
+setInterval(() => {
+    createFish(-500);
+}, 600);
+
 
         gameContainer.addEventListener('click', dropHook);
         gameContainer.addEventListener('touchstart', function(event) {
