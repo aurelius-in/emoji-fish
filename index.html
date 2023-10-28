@@ -182,14 +182,15 @@ function createFish(index) {
 
     if (startPosition === 1700) {
         fish.style.animationName = 'swimLeft';
+        fish.classList.add('flipped');  // Add the 'flipped' class to fish spawning from the left
     } else {
         fish.style.animationName = 'swimRight';
-        fish.classList.add('flipped');  // Add the 'flipped' class to fish spawning from the right
     }
 
     gameContainer.appendChild(fish);
     fishArray.push(fish);
 }
+
 
         function dropHook(event) {
             const x = event.clientX;
