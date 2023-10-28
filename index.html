@@ -205,8 +205,7 @@ function createFish(startPosition, flip) {
     fishArray.push(fishWrapper);
 }
 
-// Alternate spawning from left and right every 0.55 seconds
-setInterval(() => {
+function spawnFish() {
     if (fishArray.length < 10) {
         if (spawnFromLeft) {
             createFish(1500, true);
@@ -215,9 +214,11 @@ setInterval(() => {
         }
         spawnFromLeft = !spawnFromLeft;
     }
-}, 550);
+    setTimeout(spawnFish, spawnFromLeft ? 500 : 600);
+}
 
-
+// Start the spawning
+spawnFish();
 
         function dropHook(event) {
             const x = event.clientX;
