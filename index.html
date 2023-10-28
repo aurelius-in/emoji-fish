@@ -173,9 +173,9 @@ function createFish(index) {
 
     if (startPosition === 1700) {
         fish.style.animationName = 'swimLeft';
-        fish.style.transform = 'scaleX(-1)';  // Flip the fish spawning from the left
     } else {
         fish.style.animationName = 'swimRight';
+        fish.style.transform = 'scaleX(-1)';  // Flip the fish spawning from the right
     }
 
     gameContainer.appendChild(fish);
