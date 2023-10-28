@@ -160,7 +160,7 @@ function getFishSize(emoji) {
             }
         }
         
-        function createFish(index) {
+function createFish(index) {
     const fish = document.createElement('div');
     fish.classList.add('fish');
     const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
@@ -181,7 +181,7 @@ function getFishSize(emoji) {
     gameContainer.appendChild(fish);
     fishArray.push(fish);
 }
-            
+
         function dropHook(event) {
             const x = event.clientX;
             const y = event.clientY;
