@@ -176,28 +176,48 @@ function getFishSize(emoji) {
 }
         
 function createFish(startPosition) {
-            const fishWrapper = document.createElement('div');
-            const fish = document.createElement('div');
-            fishWrapper.appendChild(fish);
-            fish.classList.add('fish');
-            const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-            fish.textContent = emoji;
-            fish.style.top = `${Math.random() * 90}vh`;
-            fishWrapper.style.position = 'absolute';
-            fishWrapper.style.left = `${startPosition}px`;
-            fish.style.fontSize = getFishSize(emoji);
-            fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
+    // Limit the number of fish to 10
+    if (fishArray.length >= 10) {
+        const oldestFish = fishArray.shift();
+        oldestFish.remove();
+    }
 
-            if (startPosition === 1500) {
-                fish.style.animationName = 'swimLeft';
-                fishWrapper.classList.add('flip');
-            } else {
-                fish.style.animationName = 'swimRight';
-            }
+    const fishWrapper = document.createElement('div');
+    const fish = document.createElement('div');
+    fishWrapper.appendChild(fish);
+    fish.classList.add('fish');
+    const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+    fish.textContent = emoji;
+    fish.style.top = `${Math.random() * 90}vh`;
+    fishWrapper.style.left = `${startPosition}px`;
+    fish.style.fontSize = getFishSize(emoji);
+    fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
 
-            gameContainer.appendChild(fishWrapper);
-            fishArray.push(fish);
-        }
+    if (startPosition === 1500) {
+        fish.style.animationName = 'swimLeft';
+        fishWrapper.classList.add('flip');
+    } else {
+        fish.style.animationName = 'swimRight';
+    }
+
+    gameContainer.appendChild(fishWrapper);
+    fishArray.push(fishWrapper);
+}
+
+// Spawn fish from the left every 0.5 seconds
+setInterval(() => {
+    if (fishArray.length < 10) {
+        createFish(1500);
+    }
+}, 500);
+
+// Spawn fish from the right every 0.6 seconds
+setInterval(() => {
+    if (fishArray.length < 10) {
+        createFish(-500);
+    }
+}, 600);
+
 
         function dropHook(event) {
             const x = event.clientX;
@@ -248,16 +268,6 @@ function createFish(startPosition) {
         for (let i = 0; i < 20; i++) {
             createFish(i);
         }
-
-        setInterval(() => {
-    createFish(1500);
-}, 500);
-
-// Spawn fish from the right every 0.6 seconds
-setInterval(() => {
-    createFish(-500);
-}, 600);
-
 
         gameContainer.addEventListener('click', dropHook);
         gameContainer.addEventListener('touchstart', function(event) {
