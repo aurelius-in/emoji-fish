@@ -111,7 +111,7 @@
         let spawnFromLeft = false;  // Start spawning from the right
 
 function createFish(startPosition, flip) {
-    if (fishArray.length >= 20) {  // Increased to 20 to accommodate more frequent spawning
+    if (fishArray.length >= 10) {
         const oldestFish = fishArray.shift();
         oldestFish.remove();
     }
@@ -122,8 +122,8 @@ function createFish(startPosition, flip) {
     fish.style.top = `${Math.random() * 90}vh`;
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = '5s';
-    
+    fish.style.animationDuration = '10s';  // Set duration to 10 seconds
+
     if (flip) {
         fish.classList.add('flipped');
         fish.style.animationName = 'swimLeft';
@@ -141,11 +141,10 @@ function createFish(startPosition, flip) {
 function spawnFish() {
     setInterval(() => {
         createFish(-100, true);  // Spawn 100px outside the left side
-    }, 1000);  // Every 1 second
-
+    }, 1000);
     setInterval(() => {
         createFish(window.innerWidth + 100, false);  // Spawn 100px outside the right side
-    }, 1100);  // Every 1.1 seconds
+    }, 1100);
 }
 
 spawnFish();
