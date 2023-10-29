@@ -114,7 +114,7 @@ function createFish(startPosition, flip) {
     fish.classList.add('fish');
     const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
     fish.setAttribute('data-emoji', emoji);
-    fish.style.top = `${Math.random() * 90}vh`;
+    fish.style.top = `${Math.random() * 90}vh`;  // Set random vertical position only once
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = '10s';  // Set duration to 10 seconds
@@ -132,6 +132,7 @@ function createFish(startPosition, flip) {
     });
     fishArray.push(fish);
 }
+
 
 function spawnFish() {
     setInterval(() => {
