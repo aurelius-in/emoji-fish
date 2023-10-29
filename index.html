@@ -153,6 +153,7 @@ function createFish(startPosition, flip) {
         if (flip) {
             fish.style.animationName = 'spiralLeft';
         } else {
+            fish.classList.add('flipped');  // Add the flipped class when moving right
             fish.style.animationName = 'spiralRight';
         }
     } else {
@@ -163,6 +164,7 @@ function createFish(startPosition, flip) {
             fish.style.animationName = 'swimRight';
         }
     }
+
     gameContainer.appendChild(fish);
     fish.addEventListener('animationend', function() {
         this.remove();
