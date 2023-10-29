@@ -180,35 +180,35 @@ function spawnFish() {
 spawnFish();
 
 function dropHook(event) {
-    const x = event.clientX;
-    const y = event.clientY;
-    const angle = Math.atan2(y, x);
-    const distance = Math.sqrt(x * x + y * y);
-    const hookRect = hook.getBoundingClientRect();
-    const lineRect = line.getBoundingClientRect();
+            const x = event.clientX;
+            const y = event.clientY;
+            const angle = Math.atan2(y, x - window.innerWidth / 2);
+            const distance = Math.sqrt((x - window.innerWidth / 2) ** 2 + y ** 2);
 
-    hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-    line.style.transition = 'height 1s ease-in-out';
+            hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
+            line.style.transition = 'height 1s ease-in-out';
 
-    hook.style.top = `${y}px`;
-    hook.style.left = `${x - hookRect.width / 2}px`; // Center the hook
+            hook.style.top = `${y}px`;
+            hook.style.left = `${x - hook.offsetWidth / 2}px`;
 
-    line.style.height = `${distance}px`;
-    line.style.left = `${x - lineRect.width / 2}px`; // Center the line
-    line.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
+            line.style.height = `${distance}px`;
+            line.style.left = `${x - line.offsetWidth / 2}px`;
+            line.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
 
-    setTimeout(() => {
-        if (caughtFish) {
-            caughtFish.style.top = '0';
-            caughtFish = null;
+            setTimeout(() => {
+                if (caughtFish) {
+                    caughtFish.style.top = `${hook.style.top}`;
+                    caughtFish.style.left = `${hook.style.left}`;
+                    caughtFish = null;
+                }
+                hook.style.top = '0px';
+                hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
+                line.style.height = '0px';
+                line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
+                line.style.transform = 'rotate(0)';
+                checkForCatch();
+            }, 1000);
         }
-        hook.style.top = '0';
-        hook.style.left = '0';
-        line.style.height = '0';
-        line.style.transform = 'rotate(0)';
-        checkForCatch();
-    }, 1000);
-}
 
         function checkForCatch() {
             fishArray.forEach((fish, index) => {
