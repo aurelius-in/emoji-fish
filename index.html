@@ -47,20 +47,32 @@
             transform: scaleX(-1);
         }
 @keyframes spiralLeft {
-    0% {
-        transform: translateX(-100px) rotate(0deg);
+    0%, 100% {
+        transform: translate(-100px, 0) rotate(0deg);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateY(20px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateY(-20px);
     }
     100% {
-        transform: translateX(4000px) rotate(360deg);  /* Changed to clockwise */
+        transform: translate(4000px, 0) rotate(360deg);
     }
 }
 
 @keyframes spiralRight {
-    0% {
-        transform: translateX(100px) rotate(0deg);
+    0%, 100% {
+        transform: translate(100px, 0) rotate(0deg);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateY(20px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateY(-20px);
     }
     100% {
-        transform: translateX(-4000px) rotate(-360deg);  /* Changed to counter-clockwise */
+        transform: translate(-4000px, 0) rotate(-360deg);
     }
 }
 
