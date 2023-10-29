@@ -132,7 +132,10 @@
             }
 
             gameContainer.appendChild(fish);
-            fishArray.push(fish);
+fish.addEventListener('animationend', function() {
+    this.remove();
+});
+fishArray.push(fish);
         }
 
         function spawnFish() {
