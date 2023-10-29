@@ -46,22 +46,22 @@
         .fish.flipped::before {
             transform: scaleX(-1);
         }
-      @keyframes swimLeft {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(calc(100% + 100px));
-            }
+    @keyframes swimLeft {
+        0% {
+            transform: translateX(-200%);  /* Increased distance */
         }
-        @keyframes swimRight {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(calc(-100% - 100px));
-            }
+        100% {
+            transform: translateX(200%);  /* Increased distance */
         }
+    }
+    @keyframes swimRight {
+        0% {
+            transform: translateX(200%);  /* Increased distance */
+        }
+        100% {
+            transform: translateX(-200%);  /* Increased distance */
+        }
+    }
 
     </style>
 </head>
@@ -122,8 +122,8 @@ function createFish(startPosition, flip) {
     fish.style.top = `${Math.random() * 90}vh`;
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = '10s';  // Set to 10 seconds
-
+    fish.style.animationDuration = '20s';
+    
     if (flip) {
         fish.classList.add('flipped');
         fish.style.animationName = 'swimLeft';
