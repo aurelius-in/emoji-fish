@@ -93,17 +93,18 @@
     </div>
     <script>
         const gameContainer = document.getElementById('game-container');
+        // Initialize hook and line to be centered at the top
         const hook = document.querySelector('.hook');
         const line = document.querySelector('.line');
+        hook.style.top = '0px';
+        hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
+        line.style.height = '0px';
+        line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
         const fishEmojis = ['🐟', '🐠', '🐡', '🐋', '🦈', '🐬', '🦀', '🦑', '🦐', '🐙'];
         let fishArray = [];
         let score = 0;
         const scoreElement = document.getElementById('score');
         let caughtFish = null;
-
-        hook.style.top = '0px';
-        hook.style.left = '0px';
-        line.style.height = '0px';
 
         function getFishSize(emoji) {
             switch (emoji) {
