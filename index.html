@@ -47,18 +47,18 @@
         }
 @keyframes swimLeft {
     0% {
-        transform: translateX(-100px);
+        transform: rotate(0deg) translateX(-100px);
     }
     100% {
-        transform: translateX(4000px);
+        transform: rotate(0deg) translateX(4000px);
     }
 }
 @keyframes swimRight {
     0% {
-        transform: translateX(100px);
+        transform: rotate(0deg) translateX(100px);
     }
     100% {
-        transform: translateX(-4000px);
+        transform: rotate(0deg) translateX(-4000px);
     }
 }
 
@@ -125,17 +125,30 @@ function createFish(startPosition, flip) {
 
     // Add random rotation between -5 and 5 degrees
     const randomRotation = Math.random() * 10 - 5;
-    fish.style.transform = `rotate(${randomRotation}deg)`;
+
+    if (flip) {
+        fish.classList.add('flipped');
+        fish.style.animation = `swimLeft 10s linear infinite`;
+        fish.style.animationName = `swimLeft`;
+        fish.style.animationTimingFunction = 'linear';
+        fish.style.animationIterationCount = 'infinite';
+        fish.style.animationDuration = '10s';
+    } else {
+        fish.style.animation = `swimRight 10s linear infinite`;
+        fish.style.animationName = `swimRight`;
+        fish.style.animationTimingFunction = 'linear';
+        fish.style.animationIterationCount = 'infinite';
+        fish.style.animationDuration = '10s';
+    }
 
     // Set the transform origin to the front of the fish
     fish.style.transformOrigin = flip ? '100% 50%' : '0% 50%';
 
-    if (flip) {
-        fish.classList.add('flipped');
-        fish.style.animationName = 'swimLeft';
-    } else {
-        fish.style.animationName = 'swimRight';
-    }
+    // Apply the initial rotation
+    fish.style.animationPlayState = 'paused';
+    fish.style.transform = `rotate(${randomRotation}deg)`;
+    fish.offsetHeight; // Trigger reflow
+    fish.style.animationPlayState = 'running';
 
     gameContainer.appendChild(fish);
     fish.addEventListener('animationend', function() {
