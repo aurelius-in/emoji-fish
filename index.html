@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Emoji Fish</title>
     <style>
         body, html {
@@ -39,22 +38,14 @@
             left: 1vw;
             font-size: 3vh;
         }
-
         .fish::before {
-    content: attr(data-emoji);
-    display: inline-block;
-}
-.fish.flipped::before {
-    transform: scaleX(-1);
-}
-.flip {
-    transform: scaleX(-1);
-}
-.flip .fish {
+            content: attr(data-emoji);
+            display: inline-block;
+        }
+        .fish.flipped::before {
             transform: scaleX(-1);
         }
-        
-@keyframes swimLeft {
+        @keyframes swimLeft {
             0% {
                 transform: translateX(1700px);
             }
@@ -68,65 +59,6 @@
             }
             100% {
                 transform: translateX(1700px);
-            }
-        }
-
-        @keyframes wobblySwim {
-            0%, 100% {
-                transform: translateX(600px) translateY(0) scaleX(1);
-            }
-            25% {
-                transform: translateX(300px) translateY(30px) scaleX(1);
-            }
-            50% {
-                transform: translateX(-600px) translateY(30px) scaleX(-1);
-            }
-            75% {
-                transform: translateX(-300px) translateY(0) scaleX(-1);
-            }
-        }
-
-      @keyframes spiralSwimLeft {
-            0%, 100% {
-                transform: translateX(1100px) translateY(0) rotate(0deg) scaleX(1);
-            }
-            50% {
-                transform: translateX(-1100px) translateY(30px) rotate(-360deg) scaleX(-1);
-            }
-        }
-
-        @keyframes spiralSwimRight {
-            0%, 100% {
-                transform: translateX(1100px) translateY(0) rotate(0deg) scaleX(1);
-            }
-            50% {
-                transform: translateX(-1100px) translateY(30px) rotate(360deg) scaleX(-1);
-            }
-        }
-
-        @keyframes whaleSwimLeft {
-            0%, 100% {
-                transform: translateX(1100px) translateY(0) rotate(0deg) scaleX(1);
-            }
-            50% {
-                transform: translateX(-1100px) translateY(30px) rotate(360deg) scaleX(-1);
-            }
-        }
-
-        @keyframes whaleSwimRight {
-            0%, 100% {
-                transform: translateX(1100px) translateY(0) rotate(0deg) scaleX(1);
-            }
-            50% {
-                transform: translateX(-1100px) translateY(30px) rotate(-360deg) scaleX(-1);
-            }
-        }
-        @keyframes slowSwim {
-            0%, 100% {
-                transform: translateX(400px) translateY(0) scaleX(1);
-            }
-            50% {
-                transform: translateX(-400px) translateY(30px) scaleX(-1);
             }
         }
     </style>
@@ -147,12 +79,11 @@
         const scoreElement = document.getElementById('score');
         let caughtFish = null;
 
-        // Initialize hook and line positions
         hook.style.top = '0px';
         hook.style.left = '0px';
         line.style.height = '0px';
 
-function getFishSize(emoji) {
+        function getFishSize(emoji) {
             switch (emoji) {
                 case '🐟':
                 case '🐠':
@@ -173,52 +104,49 @@ function getFishSize(emoji) {
                 default:
                     return '60px';
             }
-}
-        
-let spawnFromLeft = true;
-
-function createFish(startPosition, flip) {
-    if (fishArray.length >= 10) {
-        const oldestFish = fishArray.shift();
-        oldestFish.remove();
-    }
-
-    const fishWrapper = document.createElement('div');
-    const fish = document.createElement('div');
-    fishWrapper.appendChild(fish);
-    fish.classList.add('fish');
-    const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-    fish.textContent = emoji;
-    fish.style.top = `${Math.random() * 90}vh`;
-    fishWrapper.style.left = `${startPosition}px`;
-    fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
-
-    if (flip) {
-        fishWrapper.classList.add('flip');
-        fish.style.animationName = 'swimLeft';
-    } else {
-        fish.style.animationName = 'swimRight';
-    }
-
-    gameContainer.appendChild(fishWrapper);
-    fishArray.push(fishWrapper);
-}
-
-function spawnFish() {
-    if (fishArray.length < 10) {
-        if (spawnFromLeft) {
-            createFish(1500, true);
-        } else {
-            createFish(-500, false);
         }
-        spawnFromLeft = !spawnFromLeft;
-    }
-    setTimeout(spawnFish, spawnFromLeft ? 500 : 600);
-}
 
-// Start the spawning
-spawnFish();
+        let spawnFromLeft = true;
+
+        function createFish(startPosition, flip) {
+            if (fishArray.length >= 10) {
+                const oldestFish = fishArray.shift();
+                oldestFish.remove();
+            }
+
+            const fish = document.createElement('div');
+            fish.classList.add('fish');
+            const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+            fish.setAttribute('data-emoji', emoji);
+            fish.style.top = `${Math.random() * 90}vh`;
+            fish.style.left = `${startPosition}px`;
+            fish.style.fontSize = getFishSize(emoji);
+            fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
+
+            if (flip) {
+                fish.classList.add('flipped');
+                fish.style.animationName = 'swimLeft';
+            } else {
+                fish.style.animationName = 'swimRight';
+            }
+
+            gameContainer.appendChild(fish);
+            fishArray.push(fish);
+        }
+
+        function spawnFish() {
+            if (fishArray.length < 10) {
+                if (spawnFromLeft) {
+                    createFish(1500, true);
+                } else {
+                    createFish(-500, false);
+                }
+                spawnFromLeft = !spawnFromLeft;
+            }
+            setTimeout(spawnFish, 500);
+        }
+
+        spawnFish();
 
         function dropHook(event) {
             const x = event.clientX;
@@ -243,7 +171,7 @@ spawnFish();
                 checkForCatch();
             }, 1000);
         }
-        
+
         function checkForCatch() {
             fishArray.forEach((fish, index) => {
                 const fishRect = fish.getBoundingClientRect();
@@ -264,10 +192,6 @@ spawnFish();
         function updateScore() {
             score++;
             scoreElement.textContent = `Score: ${score}`;
-        }
-
-        for (let i = 0; i < 20; i++) {
-            createFish(i);
         }
 
         gameContainer.addEventListener('click', dropHook);
