@@ -109,34 +109,32 @@
 
         let spawnFromLeft = false;  // Start spawning from the right
 
-        function createFish(startPosition, flip) {
-            if (fishArray.length >= 10) {
-                const oldestFish = fishArray.shift();
-                oldestFish.remove();
-            }
+function createFish(startPosition, flip) {
+    if (fishArray.length >= 10) {
+        const oldestFish = fishArray.shift();
+        oldestFish.remove();
+    }
+    const fish = document.createElement('div');
+    fish.classList.add('fish');
+    const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+    fish.setAttribute('data-emoji', emoji);
+    fish.style.top = `${Math.random() * 90}vh`;
+    fish.style.fontSize = getFishSize(emoji);
+    fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
 
-            const fish = document.createElement('div');
-            fish.classList.add('fish');
-            const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-            fish.setAttribute('data-emoji', emoji);
-            fish.style.top = `${Math.random() * 90}vh`;
-            fish.style.left = `${startPosition}px`;  // Set the starting position
-            fish.style.fontSize = getFishSize(emoji);
-            fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
+    if (flip) {
+        fish.classList.add('flipped');
+        fish.style.animationName = 'swimLeft';
+    } else {
+        fish.style.animationName = 'swimRight';
+    }
 
-            if (flip) {
-                fish.classList.add('flipped');
-                fish.style.animationName = 'swimLeft';
-            } else {
-                fish.style.animationName = 'swimRight';
-            }
-
-            gameContainer.appendChild(fish);
-fish.addEventListener('animationend', function() {
-    this.remove();
-});
-fishArray.push(fish);
-        }
+    gameContainer.appendChild(fish);
+    fish.addEventListener('animationend', function() {
+        this.remove();
+    });
+    fishArray.push(fish);
+}
 
         function spawnFish() {
             if (fishArray.length < 10) {
