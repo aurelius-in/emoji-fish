@@ -239,9 +239,13 @@ fish.addEventListener('animationend', function() {
         
         gameContainer.addEventListener('click', dropHook);
         gameContainer.addEventListener('touchstart', function(event) {
-            const touch = event.touches[0];
-            dropHook(touch);
-        });
+    event.preventDefault(); // Prevent zoom and other default behaviors
+    const touch = event.touches[0];
+    dropHook({
+        clientX: touch.pageX,
+        clientY: touch.pageY
+    });
+
         document.addEventListener('keydown', function(event) {
             if (event.code === 'Space') {
                 dropHook(event);
