@@ -119,6 +119,13 @@ function createFish(startPosition, flip) {
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = '10s';  // Set duration to 10 seconds
 
+    // Add random rotation between -5 and 5 degrees
+    const randomRotation = Math.random() * 10 - 5;
+    fish.style.transform = `rotate(${randomRotation}deg)`;
+
+    // Set the transform origin to the front of the fish
+    fish.style.transformOrigin = flip ? '100% 50%' : '0% 50%';
+
     if (flip) {
         fish.classList.add('flipped');
         fish.style.animationName = 'swimLeft';
@@ -132,7 +139,6 @@ function createFish(startPosition, flip) {
     });
     fishArray.push(fish);
 }
-
 
 function spawnFish() {
     setInterval(() => {
