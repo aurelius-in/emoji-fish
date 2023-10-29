@@ -152,6 +152,7 @@ function createFish(startPosition, flip) {
     if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
         if (flip) {
             fish.style.animationName = 'spiralLeft';
+            fish.classList.add('flipped');  // Flip when moving left
         } else {
             fish.style.animationName = 'spiralRight';
         }
@@ -166,7 +167,7 @@ function createFish(startPosition, flip) {
 
     // Always flip 🐬, 🦈, and 🦐 when moving right
     if (!flip && (emoji === '🐬' || emoji === '🦈' || emoji === '🦐')) {
-        fish.classList.add('flipped');
+        fish.classList.remove('flipped');  // Unflip when moving right
     }
 
     gameContainer.appendChild(fish);
@@ -175,7 +176,7 @@ function createFish(startPosition, flip) {
     });
     fishArray.push(fish);
 }
-        
+
 function spawnFish() {
     setInterval(() => {
         createFish(-100, true);  // Spawn 100px outside the left side
