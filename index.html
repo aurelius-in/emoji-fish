@@ -147,23 +147,39 @@ function createFish(startPosition, flip) {
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = '10s';
-    // Inside the createFish function
-    fish.style.setProperty('--i', 1 / 20);  // 1/20 because we have 20 up-and-down movements
 
+    let verticalPosition = parseFloat(fish.style.top.replace('vh', ''));
+    let verticalDirection = 1;
+    let verticalCounter = 0;
+    let maxVerticalMovements = 20;
+    let verticalMovementAmount = 20;
 
-    // Add random rotation between -5 and 5 degrees
+    let verticalMovement = setInterval(() => {
+        if (verticalCounter >= maxVerticalMovements) {
+            clearInterval(verticalMovement);
+            return;
+        }
+
+        if (verticalPosition <= 0 || verticalPosition >= 90) {
+            verticalDirection *= -1;
+        }
+
+        verticalPosition += verticalDirection * verticalMovementAmount;
+        fish.style.top = `${verticalPosition}vh`;
+        verticalCounter++;
+
+    }, 500);
+
     const randomRotation = Math.random() * 10 - 5;
     fish.style.transform = `rotate(${randomRotation}deg)`;
 
-    // Set the transform origin to the front of the fish
     fish.style.transformOrigin = flip ? '100% 50%' : '0% 50%';
 
     if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
         if (flip) {
-            fish.style.animationName = 'spiralLeft';
-            fish.classList.add('flipped');  // Flip when moving left
-        } else {
             fish.style.animationName = 'spiralRight';
+        } else {
+            fish.style.animationName = 'spiralLeft';
         }
     } else {
         if (flip) {
@@ -174,13 +190,9 @@ function createFish(startPosition, flip) {
         }
     }
 
-    // Always flip 🐬, 🦈, and 🦐 when moving right
-    if (!flip && (emoji === '🐬' || emoji === '🦈' || emoji === '🦐')) {
-        fish.classList.remove('flipped');  // Unflip when moving right
-    }
-
     gameContainer.appendChild(fish);
     fish.addEventListener('animationend', function() {
+        clearInterval(verticalMovement);
         this.remove();
     });
     fishArray.push(fish);
