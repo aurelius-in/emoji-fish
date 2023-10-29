@@ -47,27 +47,21 @@
             transform: scaleX(-1);
         }
 @keyframes spiralLeft {
-  0%, 100% {
-    transform: translateX(-100px) translateY(0) rotate(0deg);
-  }
-  5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% {
-    transform: translateX(calc(-100px + 200px * var(--i))) translateY(20px) rotate(calc(-360deg * var(--i)));
-  }
-  10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% {
-    transform: translateX(calc(-100px + 200px * var(--i))) translateY(0) rotate(calc(-360deg * var(--i)));
-  }
+    0% {
+        transform: translateX(-100px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(4000px) rotate(-360deg);
+    }
 }
 
 @keyframes spiralRight {
-  0%, 100% {
-    transform: translateX(100px) translateY(0) rotate(0deg);
-  }
-  5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% {
-    transform: translateX(calc(100px - 200px * var(--i))) translateY(20px) rotate(calc(360deg * var(--i)));
-  }
-  10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% {
-    transform: translateX(calc(100px - 200px * var(--i))) translateY(0) rotate(calc(360deg * var(--i)));
-  }
+    0% {
+        transform: translateX(100px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(-4000px) rotate(360deg);
+    }
 }
 
 @keyframes swimLeft {
@@ -86,42 +80,6 @@
         transform: translateX(-4000px);
     }
 }
-        @keyframes spiralLeftUpDown {
-    0% {
-        transform: translateX(-100px) translateY(0px) rotate(0deg);
-    }
-    100% {
-        transform: translateX(4000px) translateY(calc(20px * sin(0.1 * 4000px))) rotate(-360deg);
-    }
-}
-
-@keyframes spiralRightUpDown {
-    0% {
-        transform: translateX(100px) translateY(0px) rotate(0deg);
-    }
-    100% {
-        transform: translateX(-4000px) translateY(calc(20px * sin(0.1 * -4000px))) rotate(360deg);
-    }
-}
-
-@keyframes swimLeftUpDown {
-    0% {
-        transform: translateX(-100px) translateY(0px);
-    }
-    100% {
-        transform: translateX(4000px) translateY(calc(20px * sin(0.1 * 4000px)));
-    }
-}
-
-@keyframes swimRightUpDown {
-    0% {
-        transform: translateX(100px) translateY(0px);
-    }
-    100% {
-        transform: translateX(-4000px) translateY(calc(20px * sin(0.1 * -4000px)));
-    }
-}
-
 
     </style>
 </head>
@@ -184,19 +142,31 @@ function createFish(startPosition, flip) {
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = '10s';
 
+    // Add random rotation between -5 and 5 degrees
+    const randomRotation = Math.random() * 10 - 5;
+    fish.style.transform = `rotate(${randomRotation}deg)`;
+
+    // Set the transform origin to the front of the fish
+    fish.style.transformOrigin = flip ? '100% 50%' : '0% 50%';
+
     if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
         if (flip) {
-            fish.style.animationName = 'spiralLeftUpDown';
+            fish.style.animationName = 'spiralLeft';
         } else {
-            fish.style.animationName = 'spiralRightUpDown';
+            fish.style.animationName = 'spiralRight';
         }
     } else {
         if (flip) {
             fish.classList.add('flipped');
-            fish.style.animationName = 'swimLeftUpDown';
+            fish.style.animationName = 'swimLeft';
         } else {
-            fish.style.animationName = 'swimRightUpDown';
+            fish.style.animationName = 'swimRight';
         }
+    }
+
+    // Always flip 🐬, 🦈, and 🦐 when moving right
+    if (!flip && (emoji === '🐬' || emoji === '🦈' || emoji === '🦐')) {
+        fish.classList.add('flipped');
     }
 
     gameContainer.appendChild(fish);
