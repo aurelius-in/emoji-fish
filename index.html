@@ -86,6 +86,42 @@
         transform: translateX(-4000px);
     }
 }
+        @keyframes spiralLeftUpDown {
+    0% {
+        transform: translateX(-100px) translateY(0px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(4000px) translateY(calc(20px * sin(0.1 * 4000px))) rotate(-360deg);
+    }
+}
+
+@keyframes spiralRightUpDown {
+    0% {
+        transform: translateX(100px) translateY(0px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(-4000px) translateY(calc(20px * sin(0.1 * -4000px))) rotate(360deg);
+    }
+}
+
+@keyframes swimLeftUpDown {
+    0% {
+        transform: translateX(-100px) translateY(0px);
+    }
+    100% {
+        transform: translateX(4000px) translateY(calc(20px * sin(0.1 * 4000px)));
+    }
+}
+
+@keyframes swimRightUpDown {
+    0% {
+        transform: translateX(100px) translateY(0px);
+    }
+    100% {
+        transform: translateX(-4000px) translateY(calc(20px * sin(0.1 * -4000px)));
+    }
+}
+
 
     </style>
 </head>
@@ -148,56 +184,28 @@ function createFish(startPosition, flip) {
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = '10s';
 
-    let verticalPosition = parseFloat(fish.style.top.replace('vh', ''));
-    let verticalDirection = 1;
-    let verticalCounter = 0;
-    let maxVerticalMovements = 20;
-    let verticalMovementAmount = 20;
-
-    let verticalMovement = setInterval(() => {
-        if (verticalCounter >= maxVerticalMovements) {
-            clearInterval(verticalMovement);
-            return;
-        }
-
-        if (verticalPosition <= 0 || verticalPosition >= 90) {
-            verticalDirection *= -1;
-        }
-
-        verticalPosition += verticalDirection * verticalMovementAmount;
-        fish.style.top = `${verticalPosition}vh`;
-        verticalCounter++;
-
-    }, 500);
-
-    const randomRotation = Math.random() * 10 - 5;
-    fish.style.transform = `rotate(${randomRotation}deg)`;
-
-    fish.style.transformOrigin = flip ? '100% 50%' : '0% 50%';
-
     if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
         if (flip) {
-            fish.style.animationName = 'spiralRight';
+            fish.style.animationName = 'spiralLeftUpDown';
         } else {
-            fish.style.animationName = 'spiralLeft';
+            fish.style.animationName = 'spiralRightUpDown';
         }
     } else {
         if (flip) {
             fish.classList.add('flipped');
-            fish.style.animationName = 'swimLeft';
+            fish.style.animationName = 'swimLeftUpDown';
         } else {
-            fish.style.animationName = 'swimRight';
+            fish.style.animationName = 'swimRightUpDown';
         }
     }
 
     gameContainer.appendChild(fish);
     fish.addEventListener('animationend', function() {
-        clearInterval(verticalMovement);
         this.remove();
     });
     fishArray.push(fish);
 }
-
+        
 function spawnFish() {
     setInterval(() => {
         createFish(-100, true);  // Spawn 100px outside the left side
