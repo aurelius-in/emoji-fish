@@ -46,22 +46,22 @@
         .fish.flipped::before {
             transform: scaleX(-1);
         }
-    @keyframes swimLeft {
-        0% {
-            transform: translateX(-100%);  /* Start off-screen */
-        }
-        100% {
-            transform: translateX(110%);  /* End off-screen */
-        }
+@keyframes swimLeft {
+    0% {
+        transform: translateX(-100px);
     }
-    @keyframes swimRight {
-        0% {
-            transform: translateX(110%);  /* Start off-screen */
-        }
-        100% {
-            transform: translateX(-100%);  /* End off-screen */
-        }
+    100% {
+        transform: translateX(300px);
     }
+}
+@keyframes swimRight {
+    0% {
+        transform: translateX(100px);
+    }
+    100% {
+        transform: translateX(-300px);
+    }
+}
 
     </style>
 </head>
