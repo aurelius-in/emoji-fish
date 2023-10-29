@@ -46,6 +46,24 @@
         .fish.flipped::before {
             transform: scaleX(-1);
         }
+@keyframes spiralLeft {
+    0% {
+        transform: translateX(-100px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(4000px) rotate(-360deg);
+    }
+}
+
+@keyframes spiralRight {
+    0% {
+        transform: translateX(100px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(-4000px) rotate(360deg);
+    }
+}
+
 @keyframes swimLeft {
     0% {
         transform: translateX(-100px);
@@ -122,22 +140,36 @@ function createFish(startPosition, flip) {
     fish.style.top = `${Math.random() * 90}vh`;
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = '10s';  // Set duration to 10 seconds
+    fish.style.animationDuration = '10s';
 
-    if (flip) {
-        fish.classList.add('flipped');
-        fish.style.animationName = 'swimLeft';
+    // Add random rotation between -5 and 5 degrees
+    const randomRotation = Math.random() * 10 - 5;
+    fish.style.transform = `rotate(${randomRotation}deg)`;
+
+    // Set the transform origin to the front of the fish
+    fish.style.transformOrigin = flip ? '100% 50%' : '0% 50%';
+
+    if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
+        if (flip) {
+            fish.style.animationName = 'spiralLeft';
+        } else {
+            fish.style.animationName = 'spiralRight';
+        }
     } else {
-        fish.style.animationName = 'swimRight';
+        if (flip) {
+            fish.classList.add('flipped');
+            fish.style.animationName = 'swimLeft';
+        } else {
+            fish.style.animationName = 'swimRight';
+        }
     }
-
     gameContainer.appendChild(fish);
     fish.addEventListener('animationend', function() {
         this.remove();
     });
     fishArray.push(fish);
 }
-
+        
 function spawnFish() {
     setInterval(() => {
         createFish(-100, true);  // Spawn 100px outside the left side
