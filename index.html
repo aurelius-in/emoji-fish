@@ -239,8 +239,10 @@ function dropHook(event) {
 fish.addEventListener('animationend', function() {
     this.remove();
 });
-        
-        gameContainer.addEventListener('click', dropHook);
+            gameContainer.addEventListener('click', function(event) {
+                event.preventDefault();
+                dropHook(event);
+            });
             gameContainer.addEventListener('touchstart', function(event) {
                 event.preventDefault();
                 const touch = event.touches[0];
@@ -251,6 +253,7 @@ fish.addEventListener('animationend', function() {
             });
             document.addEventListener('keydown', function(event) {
                 if (event.code === 'Space') {
+                    event.preventDefault();
                     dropHook(event);
                 }
             });
