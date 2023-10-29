@@ -48,18 +48,18 @@
         }
     @keyframes swimLeft {
         0% {
-            transform: translateX(-100%);  /* Increased distance */
+            transform: translateX(-100%);  /* Start off-screen */
         }
         100% {
-            transform: translateX(200%);  /* Increased distance */
+            transform: translateX(110%);  /* End off-screen */
         }
     }
     @keyframes swimRight {
         0% {
-            transform: translateX(110%);  /* Increased distance */
+            transform: translateX(110%);  /* Start off-screen */
         }
         100% {
-            transform: translateX(-200%);  /* Increased distance */
+            transform: translateX(-100%);  /* End off-screen */
         }
     }
 
@@ -122,7 +122,7 @@ function createFish(startPosition, flip) {
     fish.style.top = `${Math.random() * 90}vh`;
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = '20s';
+    fish.style.animationDuration = '5s';
     
     if (flip) {
         fish.classList.add('flipped');
