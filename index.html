@@ -183,13 +183,19 @@ function dropHook(event) {
     const y = event.clientY;
     const angle = Math.atan2(y, x);
     const distance = Math.sqrt(x * x + y * y);
+    const hookRect = hook.getBoundingClientRect();
+    const lineRect = line.getBoundingClientRect();
+
     hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
     line.style.transition = 'height 1s ease-in-out';
+
     hook.style.top = `${y}px`;
-    hook.style.left = `${x - hook.offsetWidth / 2}px`; // Adjust the left position
+    hook.style.left = `${x - hookRect.width / 2}px`; // Center the hook
+
     line.style.height = `${distance}px`;
-    line.style.left = `${x - line.offsetWidth / 2}px`; // Adjust the left position
+    line.style.left = `${x - lineRect.width / 2}px`; // Center the line
     line.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
+
     setTimeout(() => {
         if (caughtFish) {
             caughtFish.style.top = '0';
