@@ -107,6 +107,7 @@
         }
 
         let spawnFromLeft = false;
+        let spawnFromLeft = false;  // Start spawning from the right
 
         function createFish(startPosition, flip) {
             if (fishArray.length >= 10) {
@@ -119,7 +120,7 @@
             const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
             fish.setAttribute('data-emoji', emoji);
             fish.style.top = `${Math.random() * 90}vh`;
-            fish.style.left = `${startPosition}px`;
+            fish.style.left = `${startPosition}px`;  // Set the starting position
             fish.style.fontSize = getFishSize(emoji);
             fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
 
@@ -137,9 +138,9 @@
         function spawnFish() {
             if (fishArray.length < 10) {
                 if (spawnFromLeft) {
-                    createFish(1500, true);
+                    createFish(-100, true);  // Spawn 100px outside the left side
                 } else {
-                    createFish(-500, false);
+                    createFish(window.innerWidth + 100, false);  // Spawn 100px outside the right side
                 }
                 spawnFromLeft = !spawnFromLeft;
             }
