@@ -41,26 +41,6 @@
         .fish.flipped::before {
             transform: scaleX(-1);
         }
-        @keyframes swimming {
-            0%, 100% {
-                transform: scaleX(1);
-            }
-            50% {
-                transform: scaleX(1.1);
-            }
-        }
-        .swimming {
-            animation: swimming 0.5s infinite alternate;
-        }
-@keyframes swimStretch {
-    0%, 100% {
-        transform: scaleX(1);
-    }
-    50% {
-        transform: scaleX(1.1);
-    }
-}
-        
 @keyframes swimLeft {
     0% {
         transform: translateX(-100px);
@@ -139,16 +119,11 @@ function createFish(startPosition, flip) {
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = '10s';  // Set duration to 10 seconds
 
-    if (['🐟', '🐠', '🐡'].includes(emoji)) {
-        fish.style.animationName = flip ? 'swimLeft, swimStretch' : 'swimRight, swimStretch';
-        fish.style.animationDuration = '10s, 0.5s';
-        fish.style.animationIterationCount = '1, infinite';
-    } else {
-        fish.style.animationName = flip ? 'swimLeft' : 'swimRight';
-    }
-
     if (flip) {
         fish.classList.add('flipped');
+        fish.style.animationName = 'swimLeft';
+    } else {
+        fish.style.animationName = 'swimRight';
     }
 
     gameContainer.appendChild(fish);
