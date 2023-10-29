@@ -64,33 +64,20 @@
     }
 }
 
-        @keyframes swimLeft {
-    0%, 100% {
-        transform: translateX(-100px) translateY(0px);
+@keyframes swimLeft {
+    0% {
+        transform: translateX(-100px);
     }
-    25% {
-        transform: translateX(-25px) translateY(10px);
-    }
-    50% {
-        transform: translateX(-50px) translateY(0px);
-    }
-    75% {
-        transform: translateX(-75px) translateY(-10px);
+    100% {
+        transform: translateX(4000px);
     }
 }
-
 @keyframes swimRight {
-    0%, 100% {
-        transform: translateX(100px) translateY(0px);
+    0% {
+        transform: translateX(100px);
     }
-    25% {
-        transform: translateX(25px) translateY(10px);
-    }
-    50% {
-        transform: translateX(50px) translateY(0px);
-    }
-    75% {
-        transform: translateX(75px) translateY(-10px);
+    100% {
+        transform: translateX(-4000px);
     }
 }
 
