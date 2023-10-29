@@ -100,7 +100,6 @@
         hook.style.top = '0px';
         hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
         line.style.height = '0px';
-        line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
         const fishEmojis = ['🐟', '🐠', '🐡', '🐋', '🦈', '🐬', '🦀', '🦑', '🦐', '🐙'];
         let fishArray = [];
         let score = 0;
@@ -112,21 +111,21 @@
                 case '🐟':
                 case '🐠':
                 case '🐡':
-                    return '60px';
+                    return '70px';
                 case '🐬':
                 case '🦈':
                     return '120px';
                 case '🦐':
-                    return '40px';
+                    return '60px';
                 case '🐋':
-                    return '200px';
+                    return '120px';
                 case '🦀':
-                    return '50px';
+                    return '80px';
                 case '🐙':
                 case '🦑':
-                    return '250px';
+                    return '150px';
                 default:
-                    return '60px';
+                    return '90px';
             }
         }
 
