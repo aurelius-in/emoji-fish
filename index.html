@@ -146,7 +146,10 @@ function createFish(startPosition, flip) {
     fish.style.top = `${Math.random() * 90}vh`;
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = '10s';
+    fish.style.animationDuration = '30s';
+    // Inside the createFish function
+    fish.style.setProperty('--i', 1 / 20);  // 1/20 because we have 20 up-and-down movements
+
 
     // Add random rotation between -5 and 5 degrees
     const randomRotation = Math.random() * 10 - 5;
