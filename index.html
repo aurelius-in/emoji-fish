@@ -143,16 +143,10 @@ function createFish(startPosition, flip) {
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = '10s';
 
-    // Add random rotation between -5 and 5 degrees
-    const randomRotation = Math.random() * 10 - 5;
-    fish.style.transform = `rotate(${randomRotation}deg)`;
-
-    // Set the transform origin to the front of the fish
-    fish.style.transformOrigin = flip ? '100% 50%' : '0% 50%';
-
     if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
         if (flip) {
             fish.style.animationName = 'spiralLeft';
+            fish.classList.add('flipped');  // Flipped when moving left
         } else {
             fish.style.animationName = 'spiralRight';
         }
@@ -163,11 +157,6 @@ function createFish(startPosition, flip) {
         } else {
             fish.style.animationName = 'swimRight';
         }
-    }
-
-    // Always flip 🐬, 🦈, and 🦐 when moving right
-    if (!flip && (emoji === '🐬' || emoji === '🦈' || emoji === '🦐')) {
-        fish.classList.add('flipped');
     }
 
     gameContainer.appendChild(fish);
