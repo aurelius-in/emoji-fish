@@ -51,7 +51,7 @@
         transform: translateX(-100px) rotate(0deg);
     }
     100% {
-        transform: translateX(4000px) rotate(-360deg);
+        transform: translateX(4000px) rotate(360deg);  /* Changed to clockwise */
     }
 }
 
@@ -60,9 +60,10 @@
         transform: translateX(100px) rotate(0deg);
     }
     100% {
-        transform: translateX(-4000px) rotate(360deg);
+        transform: translateX(-4000px) rotate(-360deg);  /* Changed to counter-clockwise */
     }
 }
+
 
 @keyframes swimLeft {
     0% {
