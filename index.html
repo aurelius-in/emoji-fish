@@ -46,22 +46,23 @@
         .fish.flipped::before {
             transform: scaleX(-1);
         }
-        @keyframes swimLeft {
-            0% {
-                transform: translateX(-100px);
-            }
-            100% {
-                transform: translateX(100%);
-            }
+     @keyframes swimLeft {
+        0% {
+            transform: translateX(-100%);
         }
-        @keyframes swimRight {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(-100px);
-            }
+        100% {
+            transform: translateX(100%);
         }
+    }
+    @keyframes swimRight {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
     </style>
 </head>
 <body>
@@ -110,45 +111,44 @@
         let spawnFromLeft = false;  // Start spawning from the right
 
 function createFish(startPosition, flip) {
-    if (fishArray.length >= 10) {
-        const oldestFish = fishArray.shift();
-        oldestFish.remove();
-    }
-    const fish = document.createElement('div');
-    fish.classList.add('fish');
-    const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-    fish.setAttribute('data-emoji', emoji);
-    fish.style.top = `${Math.random() * 90}vh`;
-    fish.style.left = `${startPosition}px`;
-    fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = `${Math.random() * 2 + 5}s`;
-
-    if (flip) {
-        fish.classList.add('flipped');
-        fish.style.animationName = 'swimLeft';
-    } else {
-        fish.style.animationName = 'swimRight';
-    }
-
-    gameContainer.appendChild(fish);
-    fish.addEventListener('animationend', function() {
-        this.remove();
-    });
-    fishArray.push(fish);
-}
-
-function spawnFish() {
-    if (fishArray.length < 10) {
-        if (spawnFromLeft) {
-            createFish(-100, true);  // Spawn 100px outside the left side
-        } else {
-            createFish(window.innerWidth + 100, false);  // Spawn 100px outside the right side
+        if (fishArray.length >= 10) {
+            const oldestFish = fishArray.shift();
+            oldestFish.remove();
         }
-        spawnFromLeft = !spawnFromLeft;
-    }
-    setTimeout(spawnFish, 500);
-}
+        const fish = document.createElement('div');
+        fish.classList.add('fish');
+        const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+        fish.setAttribute('data-emoji', emoji);
+        fish.style.top = `${Math.random() * 90}vh`;
+        fish.style.left = `${startPosition}px`;
+        fish.style.fontSize = getFishSize(emoji);
+        fish.style.animationDuration = `${Math.random() * 2 + 3}s`;  // Reduced time
 
+        if (flip) {
+            fish.classList.add('flipped');
+            fish.style.animationName = 'swimLeft';
+        } else {
+            fish.style.animationName = 'swimRight';
+        }
+
+        gameContainer.appendChild(fish);
+        fish.addEventListener('animationend', function() {
+            this.remove();
+        });
+        fishArray.push(fish);
+    }
+
+    function spawnFish() {
+        if (fishArray.length < 10) {
+            if (spawnFromLeft) {
+                createFish(-window.innerWidth, true);  // Spawn outside the left side
+            } else {
+                createFish(window.innerWidth, false);  // Spawn outside the right side
+            }
+            spawnFromLeft = !spawnFromLeft;
+        }
+        setTimeout(spawnFish, 500);
+    }
         spawnFish();
 
         function dropHook(event) {
