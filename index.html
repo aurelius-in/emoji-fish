@@ -111,7 +111,7 @@
         let spawnFromLeft = false;  // Start spawning from the right
 
 function createFish(startPosition, flip) {
-    if (fishArray.length >= 10) {
+    if (fishArray.length >= 20) {  // Increased to 20 to accommodate more frequent spawning
         const oldestFish = fishArray.shift();
         oldestFish.remove();
     }
@@ -122,7 +122,7 @@ function createFish(startPosition, flip) {
     fish.style.top = `${Math.random() * 90}vh`;
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = `${Math.random() * 2 + 3}s`;  // Reduced time
+    fish.style.animationDuration = '10s';  // Set to 10 seconds
 
     if (flip) {
         fish.classList.add('flipped');
@@ -138,18 +138,17 @@ function createFish(startPosition, flip) {
     fishArray.push(fish);
 }
 
-    function spawnFish() {
-        if (fishArray.length < 10) {
-            if (spawnFromLeft) {
-                createFish(-window.innerWidth, true);  // Spawn outside the left side
-            } else {
-                createFish(window.innerWidth, false);  // Spawn outside the right side
-            }
-            spawnFromLeft = !spawnFromLeft;
-        }
-        setTimeout(spawnFish, 500);
-    }
-        spawnFish();
+function spawnFish() {
+    setInterval(() => {
+        createFish(-100, true);  // Spawn 100px outside the left side
+    }, 1000);  // Every 1 second
+
+    setInterval(() => {
+        createFish(window.innerWidth + 100, false);  // Spawn 100px outside the right side
+    }, 1100);  // Every 1.1 seconds
+}
+
+spawnFish();
 
         function dropHook(event) {
             const x = event.clientX;
@@ -200,7 +199,6 @@ function createFish(startPosition, flip) {
 fish.addEventListener('animationend', function() {
     this.remove();
 });
-
         
         gameContainer.addEventListener('click', dropHook);
         gameContainer.addEventListener('touchstart', function(event) {
