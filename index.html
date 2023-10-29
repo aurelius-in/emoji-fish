@@ -46,41 +46,53 @@
         .fish.flipped::before {
             transform: scaleX(-1);
         }
-@keyframes spiralLeft {
+@keyframes swimLeft {
     0% {
-        transform: translateX(-100px) rotate(0deg);
+        transform: translate(-100px, 0);
+    }
+    50% {
+        transform: translate(2000px, 50px);
     }
     100% {
-        transform: translateX(4000px) rotate(-360deg);
+        transform: translate(4000px, 0);
+    }
+}
+
+@keyframes swimRight {
+    0% {
+        transform: translate(100px, 0);
+    }
+    50% {
+        transform: translate(-2000px, -50px);
+    }
+    100% {
+        transform: translate(-4000px, 0);
+    }
+}
+
+@keyframes spiralLeft {
+    0% {
+        transform: translate(-100px, 0);
+    }
+    50% {
+        transform: translate(2000px, 100px);
+    }
+    100% {
+        transform: translate(4000px, 0);
     }
 }
 
 @keyframes spiralRight {
     0% {
-        transform: translateX(100px) rotate(0deg);
+        transform: translate(100px, 0);
+    }
+    50% {
+        transform: translate(-2000px, -100px);
     }
     100% {
-        transform: translateX(-4000px) rotate(360deg);
+        transform: translate(-4000px, 0);
     }
 }
-
-@keyframes swimLeft {
-    0% {
-        transform: translateX(-100px);
-    }
-    100% {
-        transform: translateX(4000px);
-    }
-}
-@keyframes swimRight {
-    0% {
-        transform: translateX(100px);
-    }
-    100% {
-        transform: translateX(-4000px);
-    }
-}
-
     </style>
 </head>
 <body>
