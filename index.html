@@ -180,6 +180,7 @@ function spawnFish() {
 spawnFish();
 
 function dropHook(event) {
+            event.preventDefault(); 
             const x = event.clientX;
             const y = event.clientY;
             const angle = Math.atan2(y, x - window.innerWidth / 2);
