@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <title>Emoji Fish</title>
     <style>
-        .fish {
-    will-change: transform;
-}
-
         body, html {
             margin: 0;
             padding: 0;
@@ -21,6 +17,11 @@
             height: 100%;
             overflow: hidden;
         }
+        .fish {
+    position: absolute;
+    animation: swim 20s linear;
+}
+
         .hook {
             position: absolute;
             font-size: 4rem;
@@ -47,18 +48,18 @@
         }
 @keyframes swimLeft {
     0% {
-        transform: rotate(0deg) translateX(-100px);
+        transform: translateX(-100px);
     }
     100% {
-        transform: rotate(0deg) translateX(4000px);
+        transform: translateX(4000px);
     }
 }
 @keyframes swimRight {
     0% {
-        transform: rotate(0deg) translateX(100px);
+        transform: translateX(100px);
     }
     100% {
-        transform: rotate(0deg) translateX(-4000px);
+        transform: translateX(-4000px);
     }
 }
 
@@ -118,37 +119,17 @@ function createFish(startPosition, flip) {
     fish.classList.add('fish');
     const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
     fish.setAttribute('data-emoji', emoji);
-    fish.style.top = `${Math.random() * 90}vh`;  // Set random vertical position only once
+    fish.style.top = `${Math.random() * 90}vh`;
     fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
     fish.style.animationDuration = '10s';  // Set duration to 10 seconds
 
-    // Add random rotation between -5 and 5 degrees
-    const randomRotation = Math.random() * 10 - 5;
-
     if (flip) {
         fish.classList.add('flipped');
-        fish.style.animation = `swimLeft 10s linear infinite`;
-        fish.style.animationName = `swimLeft`;
-        fish.style.animationTimingFunction = 'linear';
-        fish.style.animationIterationCount = 'infinite';
-        fish.style.animationDuration = '10s';
+        fish.style.animationName = 'swimLeft';
     } else {
-        fish.style.animation = `swimRight 10s linear infinite`;
-        fish.style.animationName = `swimRight`;
-        fish.style.animationTimingFunction = 'linear';
-        fish.style.animationIterationCount = 'infinite';
-        fish.style.animationDuration = '10s';
+        fish.style.animationName = 'swimRight';
     }
-
-    // Set the transform origin to the front of the fish
-    fish.style.transformOrigin = flip ? '100% 50%' : '0% 50%';
-
-    // Apply the initial rotation
-    fish.style.animationPlayState = 'paused';
-    fish.style.transform = `rotate(${randomRotation}deg)`;
-    fish.offsetHeight; // Trigger reflow
-    fish.style.animationPlayState = 'running';
 
     gameContainer.appendChild(fish);
     fish.addEventListener('animationend', function() {
