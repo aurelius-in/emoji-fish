@@ -46,22 +46,22 @@
         .fish.flipped::before {
             transform: scaleX(-1);
         }
-@keyframes swimLeft {
-    0% {
-        transform: translateX(-100px);
-    }
-    100% {
-        transform: translateX(window.innerWidth + 100px);
-    }
-}
-@keyframes swimRight {
-    0% {
-        transform: translateX(window.innerWidth + 100px);
-    }
-    100% {
-        transform: translateX(-100px);
-    }
-}
+        @keyframes swimLeft {
+            0% {
+                transform: translateX(-100px);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        @keyframes swimRight {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -119,8 +119,9 @@ function createFish(startPosition, flip) {
     const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
     fish.setAttribute('data-emoji', emoji);
     fish.style.top = `${Math.random() * 90}vh`;
+    fish.style.left = `${startPosition}px`;
     fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = `${Math.random() * 5 + 10}s`;
+    fish.style.animationDuration = `${Math.random() * 2 + 5}s`;
 
     if (flip) {
         fish.classList.add('flipped');
@@ -136,17 +137,17 @@ function createFish(startPosition, flip) {
     fishArray.push(fish);
 }
 
-        function spawnFish() {
-            if (fishArray.length < 10) {
-                if (spawnFromLeft) {
-                    createFish(-100, true);  // Spawn 100px outside the left side
-                } else {
-                    createFish(window.innerWidth + 100, false);  // Spawn 100px outside the right side
-                }
-                spawnFromLeft = !spawnFromLeft;
-            }
-            setTimeout(spawnFish, 500);
+function spawnFish() {
+    if (fishArray.length < 10) {
+        if (spawnFromLeft) {
+            createFish(-100, true);  // Spawn 100px outside the left side
+        } else {
+            createFish(window.innerWidth + 100, false);  // Spawn 100px outside the right side
         }
+        spawnFromLeft = !spawnFromLeft;
+    }
+    setTimeout(spawnFish, 500);
+}
 
         spawnFish();
 
