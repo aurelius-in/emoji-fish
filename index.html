@@ -188,7 +188,13 @@
         
 let checkInterval; // Declare a variable to hold the setInterval ID
 
+let isHookActive = true; // Declare a variable to track if the hook is active
+
 function dropHook(event) {
+    if (!isHookActive || hook.textContent !== '🪝' || hook.style.top !== '0px') {
+        return; // Do not proceed if the hook is not active or not at the top
+    }
+
     const x = event.clientX;
     const y = event.clientY;
 
