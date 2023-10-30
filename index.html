@@ -188,35 +188,35 @@
             const x = event.clientX;
             const y = event.clientY;
 
-            hook.style.transition = 'none';
+            hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
             line.style.transition = 'none';
-
-            const updateLine = () => {
-                const hookRect = hook.getBoundingClientRect();
-                const hookCenterX = hookRect.left + hookRect.width / 2;
-                const hookCenterY = hookRect.top + hookRect.height / 2;
-
-                const angle = Math.atan2(hookCenterY, hookCenterX - window.innerWidth / 2);
-                const distance = Math.sqrt((hookCenterX - window.innerWidth / 2) ** 2 + hookCenterY ** 2);
-
-                line.style.height = `${distance}px`;
-                line.style.transform = `rotate(${angle}rad)`;
-            };
-                const interval = setInterval(updateLine, 16);
 
             hook.style.top = `${y}px`;
             hook.style.left = `${x - hook.offsetWidth / 2}px`;
 
+            const updateLine = () => {
+                const hookRect = hook.getBoundingClientRect();
+                const hookX = hookRect.left + hookRect.width / 2;
+                const hookY = hookRect.top;
+
+                const angle = Math.atan2(hookY, hookX - window.innerWidth / 2) * (180 / Math.PI);
+                const distance = Math.sqrt((hookX - window.innerWidth / 2) ** 2 + hookY ** 2);
+
+                line.style.height = `${distance}px`;
+                line.style.transform = `rotate(${angle}deg)`;
+            };
+
+            const interval = setInterval(updateLine, 16);
+
             setTimeout(() => {
                 clearInterval(interval);
-
                 hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
                 line.style.transition = 'height 1s ease-in-out';
 
                 hook.style.top = '0px';
                 hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
                 line.style.height = '0px';
-                line.style.transform = 'rotate(0rad)';
+                line.style.transform = 'rotate(0deg)';
                 checkForCatch();
             }, 1000);
         }
