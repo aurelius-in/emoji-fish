@@ -191,9 +191,11 @@ let checkInterval; // Declare a variable to hold the setInterval ID
 let isHookActive = true; // Declare a variable to track if the hook is active
 
 function dropHook(event) {
-            if (!isHookActive || hook.textContent !== '🪝' || hook.style.top !== '0px') {
-                return; // Do not proceed if the hook is not active or not at the top
-            }
+    if (!isHookActive || hook.textContent !== '🪝' || hook.style.top !== '0px') {
+        return; // Do not proceed if the hook is not active or not at the top
+    }
+
+    isHookActive = false; // Set the hook to inactive
 
     const x = event.clientX;
     const y = event.clientY;
@@ -215,12 +217,12 @@ function dropHook(event) {
         line.style.left = `${hookX}px`;
         line.style.transform = `rotate(0deg)`;
 
-         // Start checking for a catch after 1 second
-            setTimeout(() => {
-                checkInterval = setInterval(checkForCatch, 100); // Check every 100ms
-            }, 1000);
+        // Start checking for a catch after 1 second
+        setTimeout(() => {
+            checkInterval = setInterval(checkForCatch, 100); // Check every 100ms
+        }, 1000);
 
-        // Stop checking after 4 more seconds (total 6 seconds) and reset
+        // Stop checking after 4 more seconds (total 5 seconds) and reset
         setTimeout(() => {
             clearInterval(checkInterval);
             line.style.height = '0px';
@@ -229,7 +231,14 @@ function dropHook(event) {
             hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
             hook.style.top = '0px';
             hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
-        }, 4000);
+
+            // Reset the hook to a hook after 3 seconds
+            setTimeout(() => {
+                hook.textContent = '🪝';
+                hook.style.fontSize = '2.5rem';
+                isHookActive = true;
+            }, 3000);
+        }, 5000);
     }, 1000);
 }
 
