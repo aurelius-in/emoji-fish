@@ -187,35 +187,34 @@
 function dropHook(event) {
     const x = event.clientX;
     const y = event.clientY;
-    const angle = Math.atan2(y, x - window.innerWidth / 2);
-    const distance = Math.sqrt((x - window.innerWidth / 2) ** 2 + y ** 2);
 
     hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-    line.style.transition = 'height 1s ease-in-out, transform 1s ease-in-out';
+    line.style.transition = 'height 1s ease-in-out, top 1s ease-in-out';
 
     hook.style.top = `${y}px`;
     hook.style.left = `${x - hook.offsetWidth / 2}px`;
 
-    line.style.height = `${distance}px`;
-    line.style.left = `${window.innerWidth / 2 - line.offsetWidth / 2}px`;
-    line.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
-            setTimeout(() => {
-                if (caughtFish) {
-                    caughtFish.style.top = `${hook.style.top}`;
-                    caughtFish.style.left = `${hook.style.left}`;
-                    caughtFish = null;
-                }
-                hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-                line.style.transition = 'height 1s ease-in-out';
-                
-                hook.style.top = '0px';
-                hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
-                line.style.height = '0px';
-                line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
-                line.style.transform = 'rotate(0)';
-                checkForCatch();
-            }, 1000);
+    line.style.height = `${y}px`;  // Set the line's height to the y-coordinate of the tap
+    line.style.top = '0px';  // Set the line's top to 0
+    line.style.left = `${x - line.offsetWidth / 2}px`;
+
+    setTimeout(() => {
+        if (caughtFish) {
+            caughtFish.style.top = `${hook.style.top}`;
+            caughtFish.style.left = `${hook.style.left}`;
+            caughtFish = null;
         }
+        hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
+        line.style.transition = 'height 1s ease-in-out, top 1s ease-in-out';
+        
+        hook.style.top = '0px';
+        hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
+        line.style.height = '0px';
+        line.style.top = '0px';
+        line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
+        checkForCatch();
+    }, 1000);
+}
 
         function checkForCatch() {
             fishArray.forEach((fish, index) => {
