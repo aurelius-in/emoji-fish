@@ -191,9 +191,9 @@ let checkInterval; // Declare a variable to hold the setInterval ID
 let isHookActive = true; // Declare a variable to track if the hook is active
 
 function dropHook(event) {
-    if (!isHookActive || hook.textContent !== '🪝' || hook.style.top !== '0px') {
-        return; // Do not proceed if the hook is not active or not at the top
-    }
+            if (!isHookActive || hook.textContent !== '🪝' || hook.style.top !== '0px') {
+                return; // Do not proceed if the hook is not active or not at the top
+            }
 
     const x = event.clientX;
     const y = event.clientY;
@@ -234,25 +234,33 @@ function dropHook(event) {
 }
 
 function checkForCatch() {
-    fishArray.forEach((fish, index) => {
-        const fishRect = fish.getBoundingClientRect();
-        const hookRect = hook.getBoundingClientRect();
-        if (
-            fishRect.left < hookRect.right &&
-            fishRect.right > hookRect.left &&
-            fishRect.top < hookRect.bottom &&
-            fishRect.bottom > hookRect.top
-        ) {
-            clearInterval(checkInterval); // Stop checking for more collisions
-            const caughtEmoji = fish.getAttribute('data-emoji');
-            hook.textContent = caughtEmoji; // Replace hook emoji with fish emoji
-            hook.style.fontSize = getFishSize(caughtEmoji); // Set the size of the hook to the size of the caught fish
-            fish.remove(); // Remove the fish element
-            updateScore(caughtEmoji); // Update the score based on the size of the caught fish
-            return;
-        }
-    });
+            fishArray.forEach((fish, index) => {
+                const fishRect = fish.getBoundingClientRect();
+                const hookRect = hook.getBoundingClientRect();
+                if (
+                    fishRect.left < hookRect.right &&
+                    fishRect.right > hookRect.left &&
+                    fishRect.top < hookRect.bottom &&
+                    fishRect.bottom > hookRect.top
+                ) {
+                    clearInterval(checkInterval); // Stop checking for more collisions
+                    const caughtEmoji = fish.getAttribute('data-emoji');
+                    hook.textContent = caughtEmoji; // Replace hook emoji with fish emoji
+                    hook.style.fontSize = getFishSize(caughtEmoji); // Set the size of the hook to the size of the caught fish
+                    fish.remove(); // Remove the fish element
+                    updateScore(caughtEmoji); // Update the score based on the size of the caught fish
+
+                    // Reset the hook after 2 seconds
+                    setTimeout(() => {
+                        hook.textContent = '🪝';
+                        hook.style.fontSize = '2.5rem';
+                        isHookActive = true;
+                    }, 2000);
+
+                    return;
 }
+            });
+        }
                     
 function updateScore(emoji) {
     const fishSize = parseInt(getFishSize(emoji), 10); // Convert the size to an integer
