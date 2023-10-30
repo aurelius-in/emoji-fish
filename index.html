@@ -185,6 +185,8 @@
         }
 
         spawnFish();
+        
+let checkInterval; // Declare a variable to hold the setInterval ID
 
 function dropHook(event) {
     const x = event.clientX;
@@ -207,16 +209,22 @@ function dropHook(event) {
         line.style.left = `${hookX}px`;
         line.style.transform = `rotate(0deg)`;
 
+        // Start checking for a catch after 2 seconds
         setTimeout(() => {
-            checkForCatch();  // Moved this line here to check for collision while the hook is still down
+            checkInterval = setInterval(checkForCatch, 100); // Check every 100ms
+        }, 2000);
+
+        // Stop checking after 4 more seconds (total 6 seconds) and reset
+        setTimeout(() => {
+            clearInterval(checkInterval);
             line.style.height = '0px';
             line.style.transform = 'rotate(0deg)';
             
             hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
             hook.style.top = '0px';
             hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
-        }, 4000); // Hook and line stay for 4 seconds
-    }, 1000); // Wait 1 second to draw the line
+        }, 4000);
+    }, 1000);
 }
 
 function checkForCatch() {
@@ -229,6 +237,7 @@ function checkForCatch() {
             fishRect.top < hookRect.bottom &&
             fishRect.bottom > hookRect.top
         ) {
+            clearInterval(checkInterval); // Stop checking for more collisions
             caughtFish = fish;
             hook.textContent = fish.getAttribute('data-emoji'); // Replace hook emoji with fish emoji
             fish.remove(); // Remove the fish element
@@ -236,7 +245,7 @@ function checkForCatch() {
             return;
         }
     });
-}                    
+}
                     
         function updateScore() {
             score++;
