@@ -194,7 +194,7 @@
                 hook.style.top = `${y}px`;
                 hook.style.left = `${x - hook.offsetWidth / 2}px`;
 
-                const updateLine = () => {
+                setTimeout(() => {
                     const hookRect = hook.getBoundingClientRect();
                     const hookX = hookRect.left + hookRect.width / 2;
                     const hookY = hookRect.top;
@@ -205,20 +205,16 @@
                     line.style.height = `${distance}px`;
                     line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
                     line.style.transform = `rotate(${angle}deg)`;
-                };
 
-                const interval = setInterval(updateLine, 16);
-
-                setTimeout(() => {
-                    clearInterval(interval);
-                    hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-                    line.style.transition = 'height 1s ease-in-out';
-
-                    hook.style.top = '0px';
-                    hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
-                    line.style.height = '0px';
-                    line.style.transform = 'rotate(0deg)';
-                    checkForCatch();
+                    setTimeout(() => {
+                        line.style.height = '0px';
+                        line.style.transform = 'rotate(0deg)';
+                        
+                        hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
+                        hook.style.top = '0px';
+                        hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
+                        checkForCatch();
+                    }, 3000);
                 }, 1000);
             }
         
