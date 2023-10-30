@@ -199,12 +199,11 @@
                     const hookX = hookRect.left + hookRect.width / 2;
                     const hookY = hookRect.top;
 
-                    const angle = Math.atan2(hookY - 0, hookX - window.innerWidth / 2) * (180 / Math.PI);
-                    const distance = Math.sqrt((hookX - window.innerWidth / 2) ** 2 + (hookY - 0) ** 2);
+                    const distance = hookY;
 
                     line.style.height = `${distance}px`;
-                    line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
-                    line.style.transform = `rotate(${angle}deg)`;
+                    line.style.left = `${hookX}px`;
+                    line.style.transform = `rotate(0deg)`;
 
                     setTimeout(() => {
                         line.style.height = '0px';
@@ -217,7 +216,7 @@
                     }, 4000); // Hook and line stay for 4 seconds
                 }, 1000); // Wait 1 second to draw the line
             }
-        
+
         function checkForCatch() {
             fishArray.forEach((fish, index) => {
                 const fishRect = fish.getBoundingClientRect();
