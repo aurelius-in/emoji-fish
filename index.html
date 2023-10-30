@@ -24,11 +24,11 @@
 }
 .line {
     position: absolute;
-    width: 2px;
-    background-color: rgba(0, 0, 139, 0.7);
+    width: 2px;  /* Half as thick */
+    background-color: rgba(0, 0, 139, 0.7);  /* Dark blue with 70% transparency */
     top: 0;
-    left: 50%;
-    transform-origin: top center;
+    left: 0;
+    transform-origin: top center;  /* Changed to top center */
 }
 
 .hook {
@@ -187,16 +187,18 @@
 function dropHook(event) {
     const x = event.clientX;
     const y = event.clientY;
+    const angle = Math.atan2(y, x - window.innerWidth / 2) * (180 / Math.PI);
 
     hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-    line.style.transition = 'height 1s ease-in-out, top 1s ease-in-out';
+    line.style.transition = 'height 1s ease-in-out, transform 1s ease-in-out';
 
     hook.style.top = `${y}px`;
     hook.style.left = `${x - hook.offsetWidth / 2}px`;
 
-    line.style.height = `${y}px`;  // Set the line's height to the y-coordinate of the tap
-    line.style.top = '0px';  // Set the line's top to 0
-    line.style.left = `${x - line.offsetWidth / 2}px`;
+    const distance = Math.sqrt((x - window.innerWidth / 2) ** 2 + y ** 2);
+    line.style.height = `${distance}px`;
+    line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
+    line.style.transform = `rotate(${angle}deg)`;
 
     setTimeout(() => {
         if (caughtFish) {
@@ -205,13 +207,13 @@ function dropHook(event) {
             caughtFish = null;
         }
         hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-        line.style.transition = 'height 1s ease-in-out, top 1s ease-in-out';
+        line.style.transition = 'height 1s ease-in-out, transform 1s ease-in-out';
         
         hook.style.top = '0px';
         hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
         line.style.height = '0px';
-        line.style.top = '0px';
         line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
+        line.style.transform = 'rotate(0deg)';
         checkForCatch();
     }, 1000);
 }
