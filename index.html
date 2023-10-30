@@ -93,19 +93,18 @@
         <div id="score">Score: 0</div>
     </div>
     <script>
-                window.addEventListener('load', function() {
-            const gameContainer = document.getElementById('game-container');
-            const hook = document.querySelector('.hook');
-            const line = document.querySelector('.line');
-            
-            // Initialize hook and line to be centered at the top
-            // Moved inside the 'load' event to ensure elements are rendered
-            setTimeout(() => {
-                hook.style.top = '0px';
-                hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
-                line.style.height = '0px';
-                line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
-            }, 0);                    
+    window.addEventListener('load', function() {
+        const gameContainer = document.getElementById('game-container');
+        const hook = document.querySelector('.hook');
+        const line = document.querySelector('.line');
+        
+        setTimeout(() => {
+            hook.style.top = '0px';
+            hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
+            line.style.height = '0px';
+            line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
+        }, 0);
+        
         const fishEmojis = ['🐟', '🐠', '🐡', '🐋', '🦈', '🐬', '🦀', '🦑', '🦐', '🐙'];
         let fishArray = [];
         let score = 0;
@@ -135,89 +134,87 @@
             }
         }
 
-        let spawnFromLeft = false;  // Start spawning from the right
+        function createFish(startPosition, flip) {
+            if (fishArray.length >= 10) {
+                const oldestFish = fishArray.shift();
+                oldestFish.remove();
+            }
+            const fish = document.createElement('div');
+            fish.classList.add('fish');
+            const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+            fish.setAttribute('data-emoji', emoji);
+            fish.style.top = `${Math.random() * 90}vh`;
+            fish.style.left = `${startPosition}px`;
+            fish.style.fontSize = getFishSize(emoji);
+            fish.style.animationDuration = '10s';
 
-function createFish(startPosition, flip) {
-    if (fishArray.length >= 10) {
-        const oldestFish = fishArray.shift();
-        oldestFish.remove();
-    }
-    const fish = document.createElement('div');
-    fish.classList.add('fish');
-    const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-    fish.setAttribute('data-emoji', emoji);
-    fish.style.top = `${Math.random() * 90}vh`;
-    fish.style.left = `${startPosition}px`;
-    fish.style.fontSize = getFishSize(emoji);
-    fish.style.animationDuration = '10s';
+            if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
+                if (flip) {
+                    fish.style.animationName = 'spiralLeft';
+                    fish.classList.add('flipped');
+                } else {
+                    fish.style.animationName = 'spiralRight';
+                }
+            } else {
+                if (flip) {
+                    fish.classList.add('flipped');
+                    fish.style.animationName = 'swimLeft';
+                } else {
+                    fish.style.animationName = 'swimRight';
+                }
+            }
 
-    if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
-        if (flip) {
-            fish.style.animationName = 'spiralLeft';
-            fish.classList.add('flipped');  // Flipped when moving left
-        } else {
-            fish.style.animationName = 'spiralRight';
+            gameContainer.appendChild(fish);
+            fish.addEventListener('animationend', function() {
+                this.remove();
+            });
+            fishArray.push(fish);
         }
-    } else {
-        if (flip) {
-            fish.classList.add('flipped');
-            fish.style.animationName = 'swimLeft';
-        } else {
-            fish.style.animationName = 'swimRight';
-        }
-    }
-
-    gameContainer.appendChild(fish);
-    fish.addEventListener('animationend', function() {
-        this.remove();
-    });
-    fishArray.push(fish);
-}
         
-function spawnFish() {
-    setInterval(() => {
-        createFish(-100, true);  // Spawn 100px outside the left side
-    }, 1000);
-    setInterval(() => {
-        createFish(window.innerWidth + 100, false);  // Spawn 100px outside the right side
-    }, 1100);
-}
-
-spawnFish();
-
-function dropHook(event) {
-    const x = event.clientX;
-    const y = event.clientY;
-    const angle = Math.atan2(y, x - window.innerWidth / 2);
-    const distance = Math.sqrt((x - window.innerWidth / 2) ** 2 + y ** 2);
-
-    hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-    line.style.transition = 'height 1s ease-in-out';
-
-    hook.style.top = `${y}px`;
-    hook.style.left = `${x - hook.offsetWidth / 2}px`;
-
-    line.style.height = `${distance}px`;
-    line.style.left = `${x - line.offsetWidth / 2}px`;
-    line.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
-
-    setTimeout(() => {
-        if (caughtFish) {
-            caughtFish.style.top = `${hook.style.top}`;
-            caughtFish.style.left = `${hook.style.left}`;
-            caughtFish = null;
+        function spawnFish() {
+            setInterval(() => {
+                createFish(-100, true);
+            }, 1000);
+            setInterval(() => {
+                createFish(window.innerWidth + 100, false);
+            }, 1100);
         }
-        hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-        line.style.transition = 'height 1s ease-in-out';
-        
-        hook.style.top = '0px';
-        hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
-        line.style.height = '0px';
-        line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
-        line.style.transform = 'rotate(0)';
-        checkForCatch();
-    }, 1000);
-}
+
+        spawnFish();
+
+        function dropHook(event) {
+            const x = event.clientX;
+            const y = event.clientY;
+            const angle = Math.atan2(y, x - window.innerWidth / 2);
+            const distance = Math.sqrt((x - window.innerWidth / 2) ** 2 + y ** 2);
+
+            hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
+            line.style.transition = 'height 1s ease-in-out';
+
+            hook.style.top = `${y}px`;
+            hook.style.left = `${x - hook.offsetWidth / 2}px`;
+
+            line.style.height = `${distance}px`;
+            line.style.left = `${x - line.offsetWidth / 2}px`;
+            line.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
+
+            setTimeout(() => {
+                if (caughtFish) {
+                    caughtFish.style.top = `${hook.style.top}`;
+                    caughtFish.style.left = `${hook.style.left}`;
+                    caughtFish = null;
+                }
+                hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
+                line.style.transition = 'height 1s ease-in-out';
+                
+                hook.style.top = '0px';
+                hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
+                line.style.height = '0px';
+                line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
+                line.style.transform = 'rotate(0)';
+                checkForCatch();
+            }, 1000);
+        }
 
         function checkForCatch() {
             fishArray.forEach((fish, index) => {
@@ -241,28 +238,25 @@ function dropHook(event) {
             scoreElement.textContent = `Score: ${score}`;
         }
 
-fish.addEventListener('animationend', function() {
-    this.remove();
-});
-            gameContainer.addEventListener('click', function(event) {
-                event.preventDefault();
-                dropHook(event);
-            });
-            gameContainer.addEventListener('touchstart', function(event) {
-                event.preventDefault();
-                const touch = event.touches[0];
-                dropHook({
-                    clientX: touch.pageX,
-                    clientY: touch.pageY
-                });
-            });
-            document.addEventListener('keydown', function(event) {
-                if (event.code === 'Space') {
-                    event.preventDefault();
-                    dropHook(event);
-                }
+        gameContainer.addEventListener('click', function(event) {
+            event.preventDefault();
+            dropHook(event);
+        });
+        gameContainer.addEventListener('touchstart', function(event) {
+            event.preventDefault();
+            const touch = event.touches[0];
+            dropHook({
+                clientX: touch.pageX,
+                clientY: touch.pageY
             });
         });
-    </script>
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space') {
+                event.preventDefault();
+                dropHook(event);
+            }
+        });
+    });
+                                  </script>
 </body>
 </html>
