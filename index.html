@@ -238,19 +238,21 @@ function checkForCatch() {
             fishRect.bottom > hookRect.top
         ) {
             clearInterval(checkInterval); // Stop checking for more collisions
-            caughtFish = fish;
-            hook.textContent = fish.getAttribute('data-emoji'); // Replace hook emoji with fish emoji
+            const caughtEmoji = fish.getAttribute('data-emoji');
+            hook.textContent = caughtEmoji; // Replace hook emoji with fish emoji
+            hook.style.fontSize = getFishSize(caughtEmoji); // Set the size of the hook to the size of the caught fish
             fish.remove(); // Remove the fish element
-            updateScore();
+            updateScore(caughtEmoji); // Update the score based on the size of the caught fish
             return;
         }
     });
 }
                     
-        function updateScore() {
-            score++;
-            scoreElement.textContent = `Score: ${score}`;
-        }
+function updateScore(emoji) {
+    const fishSize = parseInt(getFishSize(emoji), 10); // Convert the size to an integer
+    score += fishSize; // Add the size to the score
+    scoreElement.textContent = `Score: ${score}`;
+}
 
         gameContainer.addEventListener('click', function(event) {
             event.preventDefault();
