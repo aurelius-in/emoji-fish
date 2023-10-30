@@ -22,18 +22,19 @@
     position: absolute;
     animation: swim 20s linear;
 }
-        .hook {
-            position: absolute;
-            font-size: 2.5rem;
-            transform-origin: top center; /* Add this line */
-        }
-        .line {
+.line {
     position: absolute;
-    width: 2px;  /* Half as thick */
-    background-color: rgba(0, 0, 139, 0.7);  /* Dark blue with 70% transparency */
+    width: 2px;
+    background-color: rgba(0, 0, 139, 0.7);
     top: 0;
-    left: 0;
-    transform-origin: bottom center;
+    left: 50%;
+    transform-origin: top center;
+}
+
+.hook {
+    position: absolute;
+    font-size: 2.5rem;
+    transform-origin: 50% 0%; /* Adjusted to top center */
 }
 
         #score {
@@ -189,14 +190,14 @@ function dropHook(event) {
     const angle = Math.atan2(y, x - window.innerWidth / 2);
     const distance = Math.sqrt((x - window.innerWidth / 2) ** 2 + y ** 2);
 
-    hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-    line.style.transition = 'height 1s ease-in-out, top 1s ease-in-out';  /* Added top transition */
+    hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out, transform 1s ease-in-out';
+    line.style.transition = 'height 1s ease-in-out';
 
     hook.style.top = `${y}px`;
     hook.style.left = `${x - hook.offsetWidth / 2}px`;
+    hook.style.transform = `rotate(${angle * (180 / Math.PI)}deg)`; // Rotate the hook
 
-    line.style.height = `${y}px`;  /* Adjusted height */
-    line.style.top = '0px';  /* Set top to 0 */
+    line.style.height = `${y}px`;
     line.style.left = `${x - line.offsetWidth / 2}px`;
     line.style.transform = `rotate(${angle + Math.PI / 2}rad)`;    
             setTimeout(() => {
