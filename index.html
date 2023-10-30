@@ -215,10 +215,10 @@ function dropHook(event) {
         line.style.left = `${hookX}px`;
         line.style.transform = `rotate(0deg)`;
 
-        // Start checking for a catch after 2 seconds
-        setTimeout(() => {
-            checkInterval = setInterval(checkForCatch, 100); // Check every 100ms
-        }, 2000);
+         // Start checking for a catch after 1 second
+            setTimeout(() => {
+                checkInterval = setInterval(checkForCatch, 100); // Check every 100ms
+            }, 1000);
 
         // Stop checking after 4 more seconds (total 6 seconds) and reset
         setTimeout(() => {
@@ -250,18 +250,18 @@ function checkForCatch() {
                     fish.remove(); // Remove the fish element
                     updateScore(caughtEmoji); // Update the score based on the size of the caught fish
 
-                    // Reset the hook after 2 seconds
+                    // Reset the hook after 3 seconds
                     setTimeout(() => {
                         hook.textContent = '🪝';
                         hook.style.fontSize = '2.5rem';
                         isHookActive = true;
-                    }, 2000);
+                    }, 3000);
 
                     return;
 }
             });
         }
-                    
+
 function updateScore(emoji) {
     const fishSize = parseInt(getFishSize(emoji), 10); // Convert the size to an integer
     score += fishSize; // Add the size to the score
