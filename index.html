@@ -22,14 +22,14 @@
     position: absolute;
     animation: swim 20s linear;
 }
-.line {
-    position: absolute;
-    width: 2px;
-    background-color: rgba(0, 0, 139, 0.5);  /* Dark blue with 50% transparency */
-    top: 0;
-    left: 0;
-    transform-origin: top center;
-}
+     .line {
+            position: absolute;
+            width: 2px;
+            background-color: rgba(0, 0, 139, 0.5);  /* Changed opacity to 0.5 */
+            top: 0;
+            left: 0;
+            transform-origin: top center;
+        }
 .hook {
     position: absolute;
     font-size: 2.5rem;
@@ -227,6 +227,8 @@
                     fishRect.bottom > hookRect.top
                 ) {
                     caughtFish = fish;
+                    hook.textContent = fish.getAttribute('data-emoji'); // Replace hook emoji with fish emoji
+                    fish.remove(); // Remove the fish element
                     updateScore();
                     return;
                 }
