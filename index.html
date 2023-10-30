@@ -189,22 +189,17 @@ function dropHook(event) {
     const y = event.clientY;
 
     hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-    line.style.transition = 'height 1s ease-in-out, top 1s ease-in-out, left 1s ease-in-out';
+    line.style.transition = 'height 1s ease-in-out';
 
     hook.style.top = `${y}px`;
     hook.style.left = `${x - hook.offsetWidth / 2}px`;
 
-    const distance = Math.sqrt((x - window.innerWidth / 2) ** 2 + y ** 2);
+    const distance = y;
     line.style.height = `${distance}px`;
-    line.style.top = '0px';
     line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
 
-    const angle = Math.atan2(y, x - window.innerWidth / 2);
-    const lineTop = Math.sin(angle) * distance;
-    const lineLeft = Math.cos(angle) * distance;
-
-    line.style.top = `${-lineTop}px`;
-    line.style.left = `calc(50% + ${lineLeft}px - ${line.offsetWidth / 2}px)`;
+    const angle = Math.atan2(y - 0, x - window.innerWidth / 2);
+    line.style.transform = `rotate(${angle}rad)`;
 
     setTimeout(() => {
         if (caughtFish) {
@@ -213,17 +208,17 @@ function dropHook(event) {
             caughtFish = null;
         }
         hook.style.transition = 'top 1s ease-in-out, left 1s ease-in-out';
-        line.style.transition = 'height 1s ease-in-out, top 1s ease-in-out, left 1s ease-in-out';
+        line.style.transition = 'height 1s ease-in-out';
         
         hook.style.top = '0px';
         hook.style.left = `calc(50% - ${hook.offsetWidth / 2}px)`;
         line.style.height = '0px';
-        line.style.top = '0px';
         line.style.left = `calc(50% - ${line.offsetWidth / 2}px)`;
+        line.style.transform = 'rotate(0rad)';
         checkForCatch();
     }, 1000);
 }
-
+        
         function checkForCatch() {
             fishArray.forEach((fish, index) => {
                 const fishRect = fish.getBoundingClientRect();
