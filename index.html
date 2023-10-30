@@ -138,42 +138,48 @@
             }
         }
 
-        function createFish(startPosition, flip) {
-            if (fishArray.length >= 10) {
-                const oldestFish = fishArray.shift();
-                oldestFish.remove();
-            }
-            const fish = document.createElement('div');
-            fish.classList.add('fish');
-            const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-            fish.setAttribute('data-emoji', emoji);
-            fish.style.top = `${Math.random() * 90}vh`;
-            fish.style.left = `${startPosition}px`;
-            fish.style.fontSize = getFishSize(emoji);
-            fish.style.animationDuration = '10s';
+let baseSpeed = 10; // Base speed in seconds for the first fish
+let speedIncrement = 0.1; // 10% increment for each next fish
 
-            if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
-                if (flip) {
-                    fish.style.animationName = 'spiralLeft';
-                    fish.classList.add('flipped');
-                } else {
-                    fish.style.animationName = 'spiralRight';
-                }
-            } else {
-                if (flip) {
-                    fish.classList.add('flipped');
-                    fish.style.animationName = 'swimLeft';
-                } else {
-                    fish.style.animationName = 'swimRight';
-                }
-            }
+function createFish(startPosition, flip) {
+    if (fishArray.length >= 10) {
+        const oldestFish = fishArray.shift();
+        oldestFish.remove();
+    }
+    const fish = document.createElement('div');
+    fish.classList.add('fish');
+    const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+    fish.setAttribute('data-emoji', emoji);
+    fish.style.top = `${Math.random() * 90}vh`;
+    fish.style.left = `${startPosition}px`;
+    fish.style.fontSize = getFishSize(emoji);
 
-            gameContainer.appendChild(fish);
-            fish.addEventListener('animationend', function() {
-                this.remove();
-            });
-            fishArray.push(fish);
+    // Set animation duration based on the fish's position in the array
+    let currentSpeed = baseSpeed + (fishArray.length * baseSpeed * speedIncrement);
+    fish.style.animationDuration = `${currentSpeed}s`;
+
+    if (emoji === '🐬' || emoji === '🦈' || emoji === '🦐') {
+        if (flip) {
+            fish.style.animationName = 'spiralLeft';
+            fish.classList.add('flipped');
+        } else {
+            fish.style.animationName = 'spiralRight';
         }
+    } else {
+        if (flip) {
+            fish.classList.add('flipped');
+            fish.style.animationName = 'swimLeft';
+        } else {
+            fish.style.animationName = 'swimRight';
+        }
+    }
+
+    gameContainer.appendChild(fish);
+    fish.addEventListener('animationend', function() {
+        this.remove();
+    });
+    fishArray.push(fish);
+}
         
         function spawnFish() {
             setInterval(() => {
